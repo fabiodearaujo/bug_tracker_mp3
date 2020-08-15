@@ -1,7 +1,10 @@
-.text-shadow {
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
-}
 
+/* Using this class will increase the top margin */
 .top-spacing {
     margin-top: 100px;
+}
+
+/* Using this class will add a gray shadow to the text */
+.text-shadow {
+    text-shadow: 2px 2px 2px rgba(247, 247, 247, 0.5);
 }

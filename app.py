@@ -21,6 +21,10 @@ mongo = PyMongo(app)
 def home():
     return render_template("home.html")
 
+@app.route("/register")
+def register():
+    return render_template("register.html")
+
 
 @app.route("/get_users", methods=["GET", "POST"])
 def get_users():
