@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Bug Tracker - Home</title>
-</head>
-<body>
-    <h3>Simple Bug Tracker</h3>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="row card-panel grey lighten-4 center-align top-spacing">
+        <img src="static\img\bugtrackerlogodark.svg" class="center-align" height="150px" width="150px" alt=""/>
+        <h2 class="light-blue-text text-darken-4 center-align">Welcome to Simple Bug Tracker</h2>
+        <h4 class="light-blue-text text-darken-4 center-align">A simple tool to help on your project</h4>
+        <h5 class="red-text text-darken-4 center-align top-spacing">Please <a href="#" class="light-blue-text text-darken-4">
+            Log In</a> or <a href="#" class="light-blue-text text-darken-4">Register</a> to Start</h5>
+    </div>
+{% endblock %}
