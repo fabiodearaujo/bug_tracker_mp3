@@ -1,11 +1,24 @@
 {% extends "base.html" %}
 
+{% block styles %}
+    <link rel="shortcut icon" href="static/img/bugtrackerlogodark.svg" type="image/x-icon">
+{% endblock %}
+
+{% block logo %}
+    <a href="{{ url_for('home') }}" class="brand-logo" style="padding-left: 20px; padding-top: 5px;"><img src="static\img\bugtrackerlogolight.svg" height="50px" width="50px" alt="Bug Tracker Logo"></a>
+{% endblock %}
+
 {% block content %}
     <div class="row card-panel grey lighten-4 center-align top-spacing">
-        <img src="static\img\bugtrackerlogodark.svg" class="center-align" height="150px" width="150px" alt=""/>
+        <img src="static/img/bugtrackerlogodark.svg" class="center-align" height="150px" width="150px" alt=""/>
         <h2 class="light-blue-text text-darken-4 center-align">Welcome to Simple Bug Tracker</h2>
         <h4 class="light-blue-text text-darken-4 center-align">A simple tool to help on your project</h4>
-        <h5 class="red-text text-darken-4 center-align top-spacing">Please <a href="#" class="light-blue-text text-darken-4">
-            Log In</a> or <a href="{{ url_for('register') }}" class="light-blue-text text-darken-4">Register</a> to Start</h5>
+        {% if session.user %}
+            <h5 class="red-text text-darken-4 center-align top-spacing">You are logged in, use de 
+                <a href="{{ url_for('dashboard', user_name=session['user']) }}">Dashboard</a> to check your Project and Tickets</h5>
+        {% else %}
+            <h5 class="red-text text-darken-4 center-align top-spacing">Please <a href="{{ url_for('login') }}" class="light-blue-text text-darken-4">
+                Log In</a> or <a href="{{ url_for('register') }}" class="light-blue-text text-darken-4">Register</a> to Start</h5>
+        {% endif %}
     </div>
 {% endblock %}

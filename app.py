@@ -47,14 +47,54 @@ def register():
     return render_template("register.html")
 
 
-@app.route("/dashboard", methods=["GET"])
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        # check if username exists in db
+        existing_user = mongo.db.user.find_one(
+            {"user_name": request.form.get("user_name").lower()})
+
+        if existing_user:
+            #ensure hashed password matches user input
+            if check_password_hash(
+                existing_user["user_pass"], request.form.get("user_pass")):
+                    session["user"] = request.form.get("user_name").lower()
+                    flash("Welcome, {}".format(request.form.get("user_name")))
+                    return redirect(url_for(
+                        "dashboard", user_name=session["user"]))
+            else:
+                # invalid password match
+                flash("Incorrect Username and/or Password")
+                return redirect(url_for("login"))
+
+        else:
+            # username does not exist
+            flash("Incorrect Username and/or Password")
+            return redirect(url_for("login"))
+
+    return render_template("login.html")
+
+
+
+@app.route("/dashboard/<user_name>", methods=["GET", "POST"])
 def dashboard(user_name):
-    return render_template("dashboard.html")
+    user_name = mongo.db.user.find_one(
+        {"user_name": session["user"]})["user_name"]
+    return render_template("dashboard.html", user_name=user_name)
+
 
 @app.route("/get_users", methods=["GET", "POST"])
 def get_users():
     users = mongo.db.user.find()
     return render_template("users.html", user_result=users)
+
+
+@app.route("/logout")
+def logout():
+    # remove user from session cookies and return to home
+    flash("You have been logged out")
+    session.pop("user")
+    return redirect(url_for("home"))
 
 
 if __name__ == "__main__":
