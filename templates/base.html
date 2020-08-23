@@ -28,7 +28,7 @@
                         <li><a href="#">New Project</a></li>
                         <li><a href="#">New Ticket</a></li>
                         {% if session.category == "manager" %}
-                            <li><a href="{{ url_for('edit_user', user_name=session['user']) }}">Manage User</a></li>
+                            <li><a href="{{ url_for('manage_user', user_name=session['user']) }}">Manage User</a></li>
                         {% endif %}
                         <li><a href="{{ url_for('logout') }}">Log Out</a></li>
                     {% else %}
@@ -48,7 +48,7 @@
                     <li><a href="#">New Project</a></li>
                     <li><a href="#">New Ticket</a></li>
                     {% if session.category == "manager" %}
-                        <li><a href="{{ url_for('edit_user', user_name=session['user']) }}">Manage User</a></li>
+                        <li><a href="{{ url_for('manage_user', user_name=session['user']) }}">Manage User</a></li>
                     {% endif %}
                     <li><a href="{{ url_for('logout') }}">Log Out</a></li>
                 {% else %}

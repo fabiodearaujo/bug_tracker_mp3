@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    <link rel="shortcut icon" href="../static/img/bugtrackerlogodark.svg" type="image/x-icon">
+{% endblock %}
+
+{% block logo %}
+    <a href="{{ url_for('home') }}" class="brand-logo" style="padding-left: 20px; padding-top: 5px;"><img src="..\static\img\bugtrackerlogolight.svg" height="50px" width="50px" alt="Bug Tracker Logo"></a>
+{% endblock %}
+
+{% block content %}
+    <h3 class="center-align">Manage Users</h3>
+
+    <div class="col s12 card-panel grey lighten-5">
+        <form action="{{ url_for('search_user') }}" method="POST" class="col s12">
+            <div class="row valign-wrapper center-align">
+                <div class="input-field col s12 m8">
+                    <i class="fas fa-search prefix text-darken-4"></i>
+                    <input type="text" name="query" minlength="3" id="query" class="validate" required>
+                    <label for="query">Search Users</label>
+                </div>
+                <div class="col s12 m4">
+                    <a href="{{ url_for('manage_user', user_reg=user_reg) }}" class="red btn text-shadow">Reset</a>
+                    <button type="submit" class="btn light-blue darken-1 text-shadow">
+                        <i class="fas fa-search left"></i> Search
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="row top-spacing">
+        <div class="col s12">
+            <div class="card-panel">
+                <!-- username field -->
+                <div class="row">
+                    <div class="col s12">
+                        <h5>Username: {{ user_reg }}</h5>
+                    </div>
+                </div>
+                <!-- password field  -->
+                <div class="row">
+                    <div class="col s12">
+                        <h5>Password: {{ user_pass }}</h5>
+                    </div>
+                </div>
+                <!-- user category -->
+                <div class="row">
+                    <div class="col s12">
+                        <h5>Category: {{ user_category }}</h5>
+                    </div>
+                </div>
+                <!-- Update button  -->
+                <div class="row top-spacing">
+                    <button type="submit" class="col s12 m4 offset-m1 btn-large light-blue darken-4 text-shadow">
+                        Edit user...<i class="fas fa-sign-in-alt"></i>
+                    </button>
+                    <button type="submit" class="col s12 m4 offset-m2 btn-large light-blue darken-4 text-shadow">
+                        Change Password... <i class="fas fa-sign-in-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

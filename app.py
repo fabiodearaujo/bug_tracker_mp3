@@ -32,19 +32,16 @@ def register():
             flash("Username already exists")
             return redirect(url_for("register"))
 
+        # Automatically register as a regular user, only a Manager can change.
         register = {
             "user_name": request.form.get("user_name").lower(),
             "user_pass": generate_password_hash(request.form.get("user_pass")),
-            "project_name": "",
             "user_category": "regular"
         }
         mongo.db.user.insert_one(register)
 
-        # put the new user into 'session' cookie
-        session["user"] = request.form.get("user_name").lower()
-        session["category"] = register.user_category
-        flash("Registration Successful")
-        return redirect(url_for("dashboard", user_name=session["user"]))
+        flash("Registration Successful, please login!")
+        return redirect(url_for("login"))
     return render_template("register.html")
 
 
@@ -59,9 +56,9 @@ def login():
             #ensure hashed password matches user input
             if check_password_hash(
                 existing_user["user_pass"], request.form.get("user_pass")):
-                    session["user"] = request.form.get("user_name").lower()
+                    session["user"] = existing_user["user_name"]
                     session["category"] = existing_user["user_category"]
-                    flash("Welcome, {}".format(request.form.get("user_name")))
+                    flash("Welcome, {}".format(existing_user["user_name"]))
                     return redirect(url_for(
                         "dashboard", user_name=session["user"]))
             else:
@@ -93,10 +90,17 @@ def edit_user(user_name):
 
 
 @app.route("/search", methods=["GET", "POST"])
-def search():
+def search_user():
     query = request.form.get("query")
-    user = list(mongo.db.user.find({"$text": {"$search": query}}).sort('user_name', 1))
-    return render_template("users.html", user_name=user)
+    user_reg = list(mongo.db.user.find_one({"$text": {"$search": query}}))
+    return render_template("manage_user.html", user_reg=user_reg)
+
+
+@app.route("/manage_user/<user_name>", methods=["GET", "POST"])
+def manage_user(user_reg):
+    user_reg = mongo.db.user.find_one(
+            {"user_name": session["user"]})
+    return render_template("manage_user.html", user_reg=user_reg)
 
 
 @app.route("/logout")
