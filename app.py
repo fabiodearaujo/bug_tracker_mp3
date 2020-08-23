@@ -42,6 +42,7 @@ def register():
 
         # put the new user into 'session' cookie
         session["user"] = request.form.get("user_name").lower()
+        session["category"] = register.user_category
         flash("Registration Successful")
         return redirect(url_for("dashboard", user_name=session["user"]))
     return render_template("register.html")
@@ -59,6 +60,7 @@ def login():
             if check_password_hash(
                 existing_user["user_pass"], request.form.get("user_pass")):
                     session["user"] = request.form.get("user_name").lower()
+                    session["category"] = existing_user["user_category"]
                     flash("Welcome, {}".format(request.form.get("user_name")))
                     return redirect(url_for(
                         "dashboard", user_name=session["user"]))
@@ -83,10 +85,18 @@ def dashboard(user_name):
     return render_template("dashboard.html", user_name=user_name)
 
 
-@app.route("/get_users", methods=["GET", "POST"])
-def get_users():
-    users = mongo.db.user.find()
-    return render_template("users.html", user_result=users)
+@app.route("/edit_user/<user_name>", methods=["GET", "POST"])
+def edit_user(user_name):
+    user_name = mongo.db.user.find_one(
+        {"user_name": session["user"]})["user_name"]
+    return render_template("edit_user.html", user_name=user_name)
+
+
+@app.route("/search", methods=["GET", "POST"])
+def search():
+    query = request.form.get("query")
+    user = list(mongo.db.user.find({"$text": {"$search": query}}).sort('user_name', 1))
+    return render_template("users.html", user_name=user)
 
 
 @app.route("/logout")
