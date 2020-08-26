@@ -92,12 +92,12 @@ def edit_user(user_name):
 @app.route("/search", methods=["GET", "POST"])
 def search_user():
     query = request.form.get("query")
-    user_reg = list(mongo.db.user.find_one({"$text": {"$search": query}}))
+    user_reg = mongo.db.user.find_one({"$text": {"$search": query}})
     return render_template("manage_user.html", user_reg=user_reg)
 
 
 @app.route("/manage_user/<user_name>", methods=["GET", "POST"])
-def manage_user(user_reg):
+def manage_user(user_name):
     user_reg = mongo.db.user.find_one(
             {"user_name": session["user"]})
     return render_template("manage_user.html", user_reg=user_reg)
