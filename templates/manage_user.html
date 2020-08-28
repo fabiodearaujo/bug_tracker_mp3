@@ -35,29 +35,23 @@
             <div class="card-panel">
                 <!-- username field -->
                 <div class="row">
-                    <div class="col s12">
+                    <div class="col s12 offset-m1">
                         <h5>Username: {{ user_reg.user_name }}</h5>
-                    </div>
-                </div>
-                <!-- password field  -->
-                <div class="row">
-                    <div class="col s12">
-                        <h5>Password: {{ user_reg.user_pass }}</h5>
                     </div>
                 </div>
                 <!-- user category -->
                 <div class="row">
-                    <div class="col s12">
+                    <div class="col s12 offset-m1">
                         <h5>Category: {{ user_reg.user_category }}</h5>
                     </div>
                 </div>
                 <!-- Update button  -->
                 <div class="row top-spacing">
-                    <button type="submit" class="col s12 m4 offset-m1 btn-large light-blue darken-4 text-shadow">
-                        Edit user...<i class="fas fa-sign-in-alt"></i>
-                    </button>
+                    <a href="{{ url_for('edit_user', user_id=user_reg._id) }}" class="col s12 m4 offset-m1 btn-large light-blue darken-4 text-shadow">
+                        <i class="fas fa-user-edit"></i> Edit user...
+                    </a>
                     <button type="submit" class="col s12 m4 offset-m2 btn-large light-blue darken-4 text-shadow">
-                        Change Password... <i class="fas fa-sign-in-alt"></i>
+                        <i class="fas fa-user-shield"></i> Change Password...
                     </button>
                 </div>
             </div>

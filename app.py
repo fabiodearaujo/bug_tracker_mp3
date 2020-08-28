@@ -82,13 +82,6 @@ def dashboard(user_name):
     return render_template("dashboard.html", user_name=user_name)
 
 
-@app.route("/edit_user/<user_name>", methods=["GET", "POST"])
-def edit_user(user_name):
-    user_name = mongo.db.user.find_one(
-        {"user_name": session["user"]})["user_name"]
-    return render_template("edit_user.html", user_name=user_name)
-
-
 @app.route("/search", methods=["GET", "POST"])
 def search_user():
     query = request.form.get("query")
@@ -101,6 +94,12 @@ def manage_user(user_name):
     user_reg = mongo.db.user.find_one(
             {"user_name": session["user"]})
     return render_template("manage_user.html", user_reg=user_reg)
+
+
+@app.route("/edit_user/<user_id>", methods=["GET", "POST"])
+def edit_user(user_id):
+    user = mongo.db.user.find_one({"_id": ObjectId(user_id)})
+    return render_template("edit_user.html", user=user)
 
 
 @app.route("/logout")
