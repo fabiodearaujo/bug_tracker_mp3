@@ -1,10 +1,22 @@
 
-/* Using this class will increase the top margin */
+/* Using this class will increase the top margin by 50px */
 .top-spacing {
+    margin-top: 50px;
+}
+
+/* Using this class will increase the top margin by 100px */
+.top-spacing-double {
     margin-top: 100px;
 }
 
-/* Using this class will add a gray shadow to the text */
+
+/* Using this class will add a gray shadow to the text (this part was demosntrated on Tim videos) */
 .text-shadow {
     text-shadow: 2px 2px 2px rgba(247, 247, 247, 0.5);
+}
+
+/* Using this class it will including a space on the right side of 15px
+to be used on the buttons after font awesome icon */
+.right-pad {
+    padding-right: 15px;
 }

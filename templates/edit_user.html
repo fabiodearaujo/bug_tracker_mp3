@@ -19,24 +19,33 @@
                     <div class="input-field col s12">
                         <i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
                         <input id="user_name" name="user_name" type="text" minlenght="5" 
-                            maxlenght="15" pattern="^[a-zA-Z0-9]{5,15}$" class="validate" required>
+                            value="{{ user.user_name }}" maxlenght="15" pattern="^[a-zA-Z0-9]{5,15}$" class="validate" required>
                         <label for="user_name">Username</label>
                     </div>
                 </div>
                 <!-- user category -->
                 <div class="input-field col s12" required>
                     <select>
-                      <option value="" disabled selected>Choose your option</option>
-                      <option value="regular">Regular</option>
-                      <option value="manager">Manager</option>
+                        <option value="" disabled selected>Choose the category</option>
+                        <!-- verify the user category and selects the appropriated one -->
+                        {% if user.user_category == "regular" %}
+                            <option value="regular" selected>Regular</option>
+                            <option value="manager">Manager</option>
+                        {% else %}
+                            <option value="regular">Regular</option>
+                            <option value="manager" selected>Manager</option>
+                        {% endif %}
                     </select>
                     <label>User Category</label>
                 </div>
-                <!-- register button  -->
+                <!-- button to save the changes  -->
                 <div class="row">
-                    <button type="submit" class="col s12 btn-large light-blue darken-4 text-shadow">
-                        <i class="fas fa-save"></i> Update 
-                    </button>
+                    <a href="{{ url_for('manage_user', user_name=session['user']) }}" type="submit" class="col s12 m4 offset-m2 btn-large red darken-4 text-shadow top-spacing">
+                        <i class="fas fa-window-close right-pad"></i>Cancel 
+                    </a>
+                    <a href="#" type="submit" class="col s12 m4 offset-m1 btn-large light-blue darken-4 text-shadow top-spacing">
+                        <i class="fas fa-save right-pad"></i>Update 
+                    </a>
                 </div>
             </div>
         </form>
