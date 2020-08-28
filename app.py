@@ -99,6 +99,18 @@ def manage_user(user_name):
 @app.route("/edit_user/<user_id>", methods=["GET", "POST"])
 def edit_user(user_id):
     user = mongo.db.user.find_one({"_id": ObjectId(user_id)})
+    if request.method == "POST":
+        # Automatically register as a regular user, only a Manager can change.
+        modify = {
+            "user_name": request.form.get("user_name").lower(),
+            "user_pass": user["user_pass"],
+            "user_category": request.form.get("user_category")
+        }
+        mongo.db.user.update_one({"_id": ObjectId(user_id)}, modify)
+
+        flash("User information updated Successfully")
+        return redirect(url_for("home"))
+
     return render_template("edit_user.html", user=user)
 
 
