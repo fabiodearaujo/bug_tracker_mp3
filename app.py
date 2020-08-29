@@ -107,7 +107,7 @@ def edit_user(user_id):
             "user_pass": user["user_pass"],
             "user_category": request.form.get("user_category")
         }
-        mongo.db.user.update_one({"_id": ObjectId(user_id)}, modify)
+        mongo.db.user.replace_one({"_id": ObjectId(user_id)}, modify)
 
         flash("User information updated Successfully")
         return redirect(url_for("home"))
@@ -125,7 +125,7 @@ def change_pass(user_id):
             "user_pass": generate_password_hash(request.form.get("user_pass")),
             "user_category": user["user_category"]
         }
-        mongo.db.user.update_one({"_id": ObjectId(user_id)}, modify)
+        mongo.db.user.replace_one({"_id": ObjectId(user_id)}, modify)
 
         flash("User password changed Successfully")
         if session["user"] == modify["user_name"]:
