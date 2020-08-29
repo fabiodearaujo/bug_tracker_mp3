@@ -100,7 +100,8 @@ def manage_user(user_name):
 def edit_user(user_id):
     user = mongo.db.user.find_one({"_id": ObjectId(user_id)})
     if request.method == "POST":
-        # Automatically register as a regular user, only a Manager can change.
+        # modify user name and category with the information from the form
+        # but leave password untouched.
         modify = {
             "user_name": request.form.get("user_name").lower(),
             "user_pass": user["user_pass"],
@@ -112,6 +113,27 @@ def edit_user(user_id):
         return redirect(url_for("home"))
 
     return render_template("edit_user.html", user=user)
+
+
+@app.route("/change_pass/<user_id>", methods=["GET", "POST"])
+def change_pass(user_id):
+    user = mongo.db.user.find_one({"_id": ObjectId(user_id)})
+    if request.method == "POST":
+        # Automatically register as a regular user, only a Manager can change.
+        modify = {
+            "user_name": user["user_name"],
+            "user_pass": generate_password_hash(request.form.get("user_pass")),
+            "user_category": user["user_category"]
+        }
+        mongo.db.user.update_one({"_id": ObjectId(user_id)}, modify)
+
+        flash("User password changed Successfully")
+        if session["user"] == modify["user_name"]:
+            return redirect(url_for("logout"))
+        else:
+            return redirect(url_for("home"))
+
+    return render_template("change_pass.html", user=user)
 
 
 @app.route("/logout")

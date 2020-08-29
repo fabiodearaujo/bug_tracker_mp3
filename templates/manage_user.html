@@ -50,9 +50,9 @@
                     <a href="{{ url_for('edit_user', user_id=user_reg._id) }}" class="col s12 m3 offset-m2 btn-large light-blue darken-4 text-shadow top-spacing">
                         <i class="fas fa-user-edit right-pad"></i>Edit user...
                     </a>
-                    <button type="submit" class="col s12 m3 offset-m2 btn-large light-blue darken-4 text-shadow top-spacing">
+                    <a href="{{ url_for('change_pass', user_id=user_reg._id) }}" class="col s12 m3 offset-m2 btn-large light-blue darken-4 text-shadow top-spacing">
                         <i class="fas fa-user-shield right-pad"></i>Change Password...
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
