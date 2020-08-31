@@ -161,8 +161,21 @@ def create_project():
 
 @app.route("/create_ticket", methods=["GET","POST"])
 def create_ticket():
+    if request.method == "POST":
+        ticket = {
+            "ticket_title": request.form.get("ticket_title"),
+            "ticket_description": request.form.get("ticket_description"),
+            "ticket_status": "open",
+            "category_name": request.form.get("category_name"),
+            "project_name": request.form.get("project_name"),
+            "created_by": session["user"]
+        }
+        mongo.db.ticket.insert_one(ticket)
+        flash("New ticket created Successfuly")
+        return redirect(url_for("create_ticket"))
+
     categories = mongo.db.category.find().sort("category_name", 1)
-    projects = mongo.db.project.find().sort("project_name", 1)  
+    projects = mongo.db.project.find().sort("project_name", 1)
     return render_template("create_ticket.html", categories=categories, projects=projects)
 
 
