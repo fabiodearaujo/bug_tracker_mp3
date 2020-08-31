@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    <link rel="shortcut icon" href="static/img/bugtrackerlogodark.svg" type="image/x-icon">
+{% endblock %}
+
+{% block logo %}
+    <a href="{{ url_for('home') }}" class="brand-logo" style="padding-left: 20px; padding-top: 5px;"><img src="static\img\bugtrackerlogolight.svg" height="50px" width="50px" alt="Bug Tracker Logo"></a>
+{% endblock %}
+
+{% block content %}
+    <h3 class="center-align">New Project</h3>
+
+    <div class="row top-spacing">
+        <form class="col s12 m8 offset-m2" method="POST" action="{{ url_for('create_project') }}">
+            <div class="card-panel">
+                <!-- project name field -->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="fas fa-clipboard-list prefix light-blue-text text-darken-4"></i>
+                        <input id="project_name" name="project_name" type="text" minlenght="5" 
+                            maxlenght="15" pattern="^[a-zA-Z0-9]{5,15}$" class="validate" required>
+                        <label for="project_name">Project Name</label>
+                    </div>
+                </div>
+                <!-- project description  -->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="fas fa-align-left prefix light-blue-text text-darken-4"></i>
+                        <textarea id="project_description" name="project_description" minlength="5" 
+                            maxlength="200" class="materialize-textarea validate" required></textarea>
+                        <label for="project_description">Project Description</label>
+                    </div>
+                </div>
+                <!-- project target date picker  -->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="fas fa-calendar-alt prefix light-blue-text text-darken-4"></i>
+                        <input id="peoject_target_date" name="peoject_target_date" type="text" class="datepicker validate" required>
+                        <label for="peoject_target_date">Project Target Date</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="fas fa-user-check prefix light-blue-text text-darken-4"></i>
+                        <select multiple required id="user_name" name="user_name" class="validate">
+                            <option value="" disabled>Select Users for the Project</option>
+                            {% for user in users %}
+                                <option value="{{ user.user_name }}">{{ user.user_name }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="user_name">Users</label>
+                    </div>
+                </div>
+                <!-- register button  -->
+                <div class="row">
+                    <button type="submit" class="col s12 btn-large light-blue darken-4 text-shadow">
+                        Create Project <i class="fas fa-sign-in-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+   
+{% endblock %}

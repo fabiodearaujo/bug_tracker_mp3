@@ -136,6 +136,12 @@ def change_pass(user_id):
     return render_template("change_pass.html", user=user)
 
 
+@app.route("/create_project", methods=["GET", "POST"])
+def create_project():
+    users = mongo.db.user.find().sort("user_name", 1)
+    return render_template("create_project.html", users=users)
+
+
 @app.route("/logout")
 def logout():
     # remove user from session cookies and return to home
