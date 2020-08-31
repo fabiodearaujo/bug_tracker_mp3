@@ -159,6 +159,13 @@ def create_project():
     return render_template("create_project.html", users=users)
 
 
+@app.route("/create_ticket", methods=["GET","POST"])
+def create_ticket():
+    categories = mongo.db.category.find().sort("category_name", 1)
+    projects = mongo.db.project.find().sort("project_name", 1)  
+    return render_template("create_ticket.html", categories=categories, projects=projects)
+
+
 @app.route("/logout")
 def logout():
     # remove user from session cookies and return to home
