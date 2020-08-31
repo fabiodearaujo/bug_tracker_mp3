@@ -138,6 +138,23 @@ def change_pass(user_id):
 
 @app.route("/create_project", methods=["GET", "POST"])
 def create_project():
+    if request.method == "POST":
+        # returns the list from selection and store in userlist
+        userlist = request.form.getlist("user_name")
+        # loop throug the list and create 1 entry for each user
+        for user in userlist:
+            project = {
+                "project_name": request.form.get("project_name"),
+                "project_description": request.form.get("project_description"),
+                "project_target_date": request.form.get("project_target_date"),
+                "user_name": user,
+                "project_archive": "off"
+            }
+            mongo.db.project.insert_one(project)
+
+        flash("Project created successfuly")
+        return redirect(url_for("create_project"))
+
     users = mongo.db.user.find().sort("user_name", 1)
     return render_template("create_project.html", users=users)
 
