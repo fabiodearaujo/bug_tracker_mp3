@@ -10,7 +10,44 @@
 
 {% block content %}
     <h3 class="center-align">Dashboard</h3>
-    <div class="row card-panel grey lighten-4 center-align top-spacing">
-       {{ user_name }}
+
+    <div class="row top-spacing">
+        <div class="col s12">
+            <div class="card-panel">
+                <!-- project seletcion  -->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="fas fa-clipboard-check prefix light-blue-text text-darken-4"></i>
+                        <select id="project_name" name="project_name" class="validate" required>
+                            <option value="" disabled selected>Select the Project</option>
+                            {% for project in projects %}
+                                {% if project.user_name == session.user %}
+                                    <option value="{{ project.project_name }}">{{ project.project_name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <label for="project_name">Project</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12">
+            <div class="card-panel">
+                <!-- username field -->
+                <div class="row">
+                    <div class="col s12 offset-m2">
+                        <h5><strong>Username: </strong> {{ user_name.user_name }}</h5>
+                    </div>
+                </div>
+                <!-- user category -->
+                <div class="row">
+                    <div class="col s12 offset-m2">
+                        <h5><strong>Category: </strong> {{ user_name.user_category }}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
 {% endblock %}

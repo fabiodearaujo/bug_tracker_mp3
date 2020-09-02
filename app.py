@@ -77,9 +77,10 @@ def login():
 
 @app.route("/dashboard/<user_name>", methods=["GET", "POST"])
 def dashboard(user_name):
-    user_name = mongo.db.user.find_one(
-        {"user_name": session["user"]})["user_name"]
-    return render_template("dashboard.html", user_name=user_name)
+    user_name = mongo.db.user.find_one({"user_name": session["user"]})
+    projects = mongo.db.project.find().sort("project_name", 1)
+    return render_template("dashboard.html", 
+        user_name=user_name, projects=projects)
 
 
 @app.route("/search", methods=["GET", "POST"])
@@ -176,7 +177,8 @@ def create_ticket():
 
     categories = mongo.db.category.find().sort("category_name", 1)
     projects = mongo.db.project.find().sort("project_name", 1)
-    return render_template("create_ticket.html", categories=categories, projects=projects)
+    return render_template("create_ticket.html", 
+        categories=categories, projects=projects)
 
 
 @app.route("/logout")
