@@ -2,6 +2,7 @@
 // Materialize initialization JQuery code 
 $(document).ready(function(){
     $(".sidenav").sidenav({edge: "right"});
+    $('.collapsible').collapsible();
     $('select').formSelect();
     $('input#user_name, input#user_pass').characterCounter();
     $('.datepicker').datepicker({

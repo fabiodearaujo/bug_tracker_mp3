@@ -36,16 +36,32 @@
             <div class="card-panel">
                 <!-- username field -->
                 <div class="row">
-                    <div class="col s12 offset-m2">
-                        <h5><strong>Username: </strong> {{ user_name.user_name }}</h5>
+                    <div class="col s12 center-align">
+                        <h4><strong>Tickets</strong></h4>
                     </div>
                 </div>
-                <!-- user category -->
-                <div class="row">
-                    <div class="col s12 offset-m2">
-                        <h5><strong>Category: </strong> {{ user_name.user_category }}</h5>
-                    </div>
-                </div>
+                <ul class="collapsible">
+                    {% for ticket in tickets %}
+                        <li>
+                            <div class="collapsible-header white-text light-blue darken-4 text-shadow">
+                                <div class="col s3">
+                                    <i class="fas fa-caret-down"></i>
+                                        <a href="#" class="btn-small green accent-4">close</a>
+                                        <a href="#" class="btn-small light-blue lighten-1">Edit</a>
+                                </div>
+                                <div class="col s9">
+                                    <strong>Project: {{ ticket.project_name }}</strong> - Category: {{ ticket.category_name }}
+                                    <p><strong>Title : {{ ticket.ticket_title }}</strong> - Status: {{ ticket.ticket_status }}</p>
+                                </div>
+                            </div>
+                            <div class="collapsible-body">
+                                <strong>Description</strong>
+                                <p>{{ ticket.ticket_description }}</p>
+                                <p><em>by: {{ ticket.created_by }}</em></p>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
     </div>

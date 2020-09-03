@@ -79,8 +79,9 @@ def login():
 def dashboard(user_name):
     user_name = mongo.db.user.find_one({"user_name": session["user"]})
     projects = mongo.db.project.find().sort("project_name", 1)
+    tickets = mongo.db.ticket.find().sort("project_name", 1)
     return render_template("dashboard.html", 
-        user_name=user_name, projects=projects)
+        user_name=user_name, projects=projects, tickets=tickets)
 
 
 @app.route("/search", methods=["GET", "POST"])
