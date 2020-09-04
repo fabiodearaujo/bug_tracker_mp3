@@ -80,6 +80,7 @@ def dashboard(user_name):
     user_name = mongo.db.user.find_one({"user_name": session["user"]})
     projects = mongo.db.project.find().sort("project_name", 1)
     tickets = mongo.db.ticket.find().sort("project_name", 1)
+
     return render_template("dashboard.html", 
         user_name=user_name, projects=projects, tickets=tickets)
 
@@ -178,6 +179,14 @@ def create_ticket():
 
     categories = mongo.db.category.find().sort("category_name", 1)
     projects = mongo.db.project.find().sort("project_name", 1)
+    proj_test = list(mongo.db.project.find({ "user_name": session["user"]}))
+    if proj_test:
+        return render_template("create_ticket.html", 
+        categories=categories, projects=projects)
+    else:
+        flash("You don't have projects yet, contact your manager")
+        return redirect("home")
+
     return render_template("create_ticket.html", 
         categories=categories, projects=projects)
 
