@@ -58,7 +58,7 @@ def login():
                 existing_user["user_pass"], request.form.get("user_pass")):
                     session["user"] = existing_user["user_name"]
                     session["category"] = existing_user["user_category"]
-                    flash("Welcome, {}".format(existing_user["user_name"]))
+                    flash("Welcome, {}!".format(existing_user["user_name"]))
                     return redirect(url_for(
                         "dashboard", user_name=session["user"]))
             else:
@@ -77,9 +77,20 @@ def login():
 
 @app.route("/dashboard/<user_name>", methods=["GET", "POST"])
 def dashboard(user_name):
-    user_name = mongo.db.user.find_one({"user_name": session["user"]})
-    projects = mongo.db.project.find().sort("project_name", 1)
-    tickets = mongo.db.ticket.find().sort("project_name", 1)
+    #user_name = mongo.db.user.find_one({"user_name": session["user"]})
+    projects = list(mongo.db.project.find(
+        {"user_name": session["user"]}).sort("project_name", 1))
+    proj_count = []
+    tickets = []
+    for proj in projects:
+        proj_count.append(proj["project_name"])
+        proj_receipt = proj["project_name"]
+        if proj_receipt:
+            ticket = list(mongo.db.ticket.find({"project_name": proj_receipt}))
+            tickets.extend(ticket)    
+    if not projects:
+        flash("No Projects assigned yet, please contact your manager")
+        return redirect(url_for("home"))
 
     return render_template("dashboard.html", 
         user_name=user_name, projects=projects, tickets=tickets)
@@ -184,7 +195,7 @@ def create_ticket():
         return render_template("create_ticket.html", 
         categories=categories, projects=projects)
     else:
-        flash("You don't have projects yet, contact your manager")
+        flash("No Projects assigned to you yet, please contact your manager")
         return redirect("home")
 
     return render_template("create_ticket.html", 
