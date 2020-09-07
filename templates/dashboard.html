@@ -23,9 +23,10 @@
                     {% for project in projects %}
                         <li>
                             <div class="collapsible-header white-text light-blue darken-4 text-shadow">
-                                
-                                <div class="col s3">
+                                <div class="col s1">
                                     <i class="fas fa-caret-down"></i>
+                                </div>
+                                <div class="col s2">
                                     {% if session.category == "manager" %}
                                         <a href="#" class="btn-small green accent-4">Close</a>
                                         <a href="#" class="btn-small light-blue lighten-1">Edit</a>
@@ -64,10 +65,12 @@
                     {% for ticket in tickets %}
                         <li>
                             <div class="collapsible-header white-text light-blue darken-4 text-shadow">
-                                <div class="col s3">
+                                <div class="col s1">
                                     <i class="fas fa-caret-down"></i>
-                                        <a href="#" class="btn-small green accent-4">Close</a>
-                                        <a href="#" class="btn-small light-blue lighten-1">Edit</a>
+                                </div>
+                                <div class="col s2">
+                                    <a href="#" class="btn-small green accent-4">Close</a>
+                                    <a href="#" class="btn-small light-blue lighten-1">Edit</a>
                                 </div>
                                 <div class="col s9">
                                     <strong>Project: {{ ticket.project_name }}</strong> - Category: {{ ticket.category_name }}
