@@ -4,6 +4,7 @@ $(document).ready(function(){
     $(".sidenav").sidenav({edge: "right"});
     $('.collapsible').collapsible();
     $('select').formSelect();
+    $('.modal').modal();
     $('input#user_name, input#user_pass').characterCounter();
     $('.datepicker').datepicker({
         format: "dd mmmm, yyyy",
