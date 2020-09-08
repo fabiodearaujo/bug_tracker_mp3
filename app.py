@@ -19,6 +19,7 @@ mongo = PyMongo(app)
 
 # Solution from stack overflow to resolve error
 # TypeError: Object of type ObjectId is not JSON serializable
+# It was not possible to read the result returned form the DB
 class JSONEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, ObjectId):
@@ -30,6 +31,7 @@ class JSONEncoder(json.JSONEncoder):
 @app.route("/home")
 def home():
     return render_template("home.html")
+
 
 # App route for User Registration - based on Tim's videos - The Code Institute
 @app.route("/register", methods=["GET", "POST"])
@@ -112,6 +114,7 @@ def dashboard(user_name):
     return render_template("dashboard.html", 
         user_name=user_name, projects=projects, tickets=tickets)
 
+
 #App route for search user function - based on Tim's video - The code Institute
 @app.route("/search", methods=["GET", "POST"])
 def search_user():
@@ -119,12 +122,14 @@ def search_user():
     user_reg = mongo.db.user.find_one({"$text": {"$search": query}})
     return render_template("manage_user.html", user_reg=user_reg)
 
-#App route for Manage User
+
+#App route to Manage Users
 @app.route("/manage_user/<user_name>", methods=["GET", "POST"])
 def manage_user(user_name):
     user_reg = mongo.db.user.find_one(
             {"user_name": session["user"]})
     return render_template("manage_user.html", user_reg=user_reg)
+
 
 #App route for editing the user
 @app.route("/edit_user/<user_id>", methods=["GET", "POST"])
@@ -146,11 +151,12 @@ def edit_user(user_id):
     return render_template("edit_user.html", user=user)
 
 
+#App route to Change Password
 @app.route("/change_pass/<user_id>", methods=["GET", "POST"])
 def change_pass(user_id):
     user = mongo.db.user.find_one({"_id": ObjectId(user_id)})
     if request.method == "POST":
-        # Automatically register as a regular user, only a Manager can change.
+        # Only password is affected with this change
         modify = {
             "user_name": user["user_name"],
             "user_pass": generate_password_hash(request.form.get("user_pass")),
@@ -159,6 +165,9 @@ def change_pass(user_id):
         mongo.db.user.replace_one({"_id": ObjectId(user_id)}, modify)
 
         flash("User password changed Successfully")
+        # if the user is changing its own password the system
+        # will force logout, but if a manager changing for another 
+        # user, the system will keep it loged in.
         if session["user"] == modify["user_name"]:
             return redirect(url_for("logout"))
         else:
@@ -167,12 +176,14 @@ def change_pass(user_id):
     return render_template("change_pass.html", user=user)
 
 
+# App Route to Create Project
 @app.route("/create_project", methods=["GET", "POST"])
 def create_project():
     if request.method == "POST":
         # returns the list from selection and store in userlist
         userlist = request.form.getlist("user_name")
         # loop throug the list and create 1 entry for each user
+        # projects will have Archive status Off by defaut
         for user in userlist:
             project = {
                 "project_name": request.form.get("project_name"),
@@ -190,9 +201,11 @@ def create_project():
     return render_template("create_project.html", users=users)
 
 
+# App route to Create Tickets
 @app.route("/create_ticket", methods=["GET","POST"])
 def create_ticket():
     if request.method == "POST":
+        #create 1 ticket with status set automaticaly to open
         ticket = {
             "ticket_title": request.form.get("ticket_title"),
             "ticket_description": request.form.get("ticket_description"),
@@ -205,13 +218,16 @@ def create_ticket():
         flash("New ticket created Successfuly")
         return redirect(url_for("create_ticket"))
 
+    # Get categories from DB to selection on the render template
     categories = mongo.db.category.find().sort("category_name", 1)
+    # Get project to link to the ticket
     projects = mongo.db.project.find().sort("project_name", 1)
     proj_test = list(mongo.db.project.find({ "user_name": session["user"]}))
     if proj_test:
         return render_template("create_ticket.html", 
         categories=categories, projects=projects)
     else:
+        # if user has no projects assigned, he is not able to create tickets
         flash("No Projects assigned to you yet, please contact your manager")
         return redirect("home")
 
@@ -219,24 +235,34 @@ def create_ticket():
         categories=categories, projects=projects)
 
 
+# App Route for confirmation step before deleting a project
 @app.route("/project_delete_conf/<project_name>", methods=["GET","POST"])
 def project_delete_conf(project_name):
     project_name = mongo.db.project.find_one({"project_name": project_name})["project_name"]
     return render_template("project_delete_conf.html", project_name=project_name)
 
 
+# App Route for the Delete Project + Tickets function.
 @app.route("/delete_project/<project_name>")
 def delete_project(project_name):
+    #Getting tickets related to the project
     ticketlist = list(mongo.db.ticket.find({"project_name": project_name}))
+    #For some reason the list was not in the correct format and I had to encode it
     ticket_convert = JSONEncoder().encode(ticketlist)
+    #Again another transformation to be able to work with the data
     tickets = json.loads(ticket_convert)
+    #loop through the tickets and delete all related to the project
     for ticket in tickets:
         ticket_id = ticket['_id']
         mongo.db.ticket.remove({"_id": ObjectId(ticket_id)})
 
+    #Getting the Projects (It has 1 entry for each user assigned to it)
     projectlist = list(mongo.db.project.find({"project_name": project_name}))
+    #Again I was not able to work with the data and had to encode
     project_convert = JSONEncoder().encode(projectlist)
+    #then transform it on a json dictionary to be able to work.
     projects = json.loads(project_convert)
+    #loop through the Project itens deleting all occurences
     for project in projects:
         project_id = project['_id']
         mongo.db.project.remove({"_id": ObjectId(project_id)})
@@ -245,17 +271,23 @@ def delete_project(project_name):
     return redirect(url_for("home"))
 
 
+# App route to Project Archiving confirmation
 @app.route("/project_archive_conf/<project_name>", methods=["GET","POST"])
 def project_archive_conf(project_name):
     project_name = mongo.db.project.find_one({"project_name": project_name})["project_name"]
     return render_template("project_archive_conf.html", project_name=project_name)
 
 
+# App Route to Archiving project function
 @app.route("/archive_project/<project_name>")
 def archive_project(project_name):
+    #Get the list of projects
     projectlist = list(mongo.db.project.find({"project_name": project_name}))
+    #encode it
     project_convert = JSONEncoder().encode(projectlist)
+    #load json dictionary
     projects = json.loads(project_convert)
+    # loop through the project to each user and change Archiving status to "ON"
     for project in projects:
         project_update = {
             "project_name": project["project_name"],
@@ -270,6 +302,7 @@ def archive_project(project_name):
     return redirect(url_for("home"))
 
 
+#App route to Logout
 @app.route("/logout")
 def logout():
     # remove user from session cookies and return to home
