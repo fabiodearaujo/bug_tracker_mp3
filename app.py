@@ -1,4 +1,5 @@
 import os
+import json
 from flask import (
     Flask, flash, render_template,
     redirect, request, session, url_for)
@@ -15,6 +16,15 @@ app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 app.secret_key = os.environ.get("SECRET_KEY")
 
 mongo = PyMongo(app)
+
+# Solution from stack overflow to resolve error
+# TypeError: Object of type ObjectId is not JSON serializable
+class JSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        return json.JSONEncoder.default(self, o)
+
 
 @app.route("/")
 @app.route("/home")
@@ -200,6 +210,32 @@ def create_ticket():
 
     return render_template("create_ticket.html", 
         categories=categories, projects=projects)
+
+
+@app.route("/project_delete_conf/<project_name>", methods=["GET","POST"])
+def project_delete_conf(project_name):
+    project_name = mongo.db.project.find_one({"project_name": project_name})["project_name"]
+    return render_template("project_delete_conf.html", project_name=project_name)
+
+
+@app.route("/delete_project/<project_name>")
+def delete_project(project_name):
+    ticketlist = list(mongo.db.ticket.find({"project_name": project_name}))
+    ticket_convert = JSONEncoder().encode(ticketlist)
+    tickets = json.loads(ticket_convert)
+    for ticket in tickets:
+        ticket_id = ticket['_id']
+        mongo.db.ticket.remove({"_id": ObjectId(ticket_id)})
+
+    projectlist = list(mongo.db.project.find({"project_name": project_name}))
+    project_convert = JSONEncoder().encode(projectlist)
+    projects = json.loads(project_convert)
+    for project in projects:
+        project_id = project['_id']
+        mongo.db.project.remove({"_id": ObjectId(project_id)})
+
+    flash("The Project and its Tickets were deleted successfuly")
+    return redirect(url_for("home"))
 
 
 @app.route("/logout")

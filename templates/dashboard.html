@@ -28,21 +28,8 @@
                                 </div>
                                 <div class="col s2">
                                     {% if session.category == "manager" %}
-                                        <!-- modal trigger  -->
-                                        <a href="#modaldelete" class="btn-small green accent-4 modal-trigger">Delete</a>
-                                        <!-- Modal Structure -->
-                                        <div id="modaldelete" class="modal">
-                                            <div class="modal-content black-text">
-                                            <h4>Please confirm to Delete this project</h4>
-                                            <p>Confirming the deletion of the project will also 
-                                                delete all tickets connected to it.
-                                            </p>
-                                            </div>
-                                            <div class="modal-footer">
-                                            <a href="#" class="modal-close white-text blue btn">Cancel</a>
-                                            <a href="#" class="modal-close white-text red btn">Confirm</a>
-                                            </div>
-                                        </div>
+                                        <a href="{{ url_for('project_delete_conf', project_name=project.project_name) }}" class="btn-small green accent-4">Delete</a>
+                                        
                                         <!-- Modal trigger  -->
                                         <a href="#modalarchive" class="btn-small light-blue lighten-1 modal-trigger">Archive</a>
                                         <!-- Modal Structure -->

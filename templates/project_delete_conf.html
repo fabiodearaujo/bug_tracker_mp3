@@ -1,0 +1,35 @@
+
+{% extends "base.html" %}
+
+{% block styles %}
+    <link rel="shortcut icon" href="../static/img/bugtrackerlogodark.svg" type="image/x-icon">
+{% endblock %}
+
+{% block logo %}
+    <a href="{{ url_for('home') }}" class="brand-logo" style="padding-left: 20px; padding-top: 5px;"><img src="..\static\img\bugtrackerlogolight.svg" height="50px" width="50px" alt="Bug Tracker Logo"></a>
+{% endblock %}
+
+{% block content %}
+    <h3 class="center-align">WARNING</h3>
+
+    <div class="row top-spacing">
+        <div class="col s12">
+            <div class="card-panel">
+                <div class="row">
+                    <div class="col s12 center-align">
+                        <h4><strong>Please confirm if the project "{{ project_name }}" can be deleted</strong></h4>
+                    </div>
+                    <div class="col s12 center-align">
+                        <h6 class="text-red center-align"><strong>Confirming the deletion of the project will also 
+                            delete all tickets connected to it.</strong></h6>
+                    </div>
+                    <div class="col s12 center-align top-spacing">
+                        <a href="{{ url_for('dashboard', user_name=session['user']) }}" class="white-text blue btn right-pad">Cancel</a>
+                        <a href="{{ url_for('delete_project', project_name=project_name) }}" class="white-text red btn">Confirm</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
