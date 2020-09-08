@@ -31,6 +31,7 @@ class JSONEncoder(json.JSONEncoder):
 def home():
     return render_template("home.html")
 
+# App route for User Registration - based on Tim's videos - The Code Institute
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -55,6 +56,7 @@ def register():
     return render_template("register.html")
 
 
+#App route to login page - based on Tim's videos - The Code Institute
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -84,42 +86,47 @@ def login():
     return render_template("login.html")
 
 
-
+#App route for the User Dashboard where it will be displayed the projects and tickets
 @app.route("/dashboard/<user_name>", methods=["GET", "POST"])
 def dashboard(user_name):
-    #user_name = mongo.db.user.find_one({"user_name": session["user"]})
+    #return the project list of the user
     projects = list(mongo.db.project.find(
         {"user_name": session["user"]}).sort("project_name", 1))
+    #lists to receive projects and tickets
     proj_count = []
     tickets = []
-    for proj in projects:
-        proj_count.append(proj["project_name"])
-        proj_receipt = proj["project_name"]
-        if proj_receipt:
-            ticket = list(mongo.db.ticket.find({"project_name": proj_receipt}))
-            tickets.extend(ticket)    
+    #Check if there are projects to the user, if no projecs assigned
+    #user is not allowed to access the dashboard
     if not projects:
         flash("No Projects assigned yet, please contact your manager")
         return redirect(url_for("home"))
-
+    else:
+        #iterate through the projects to get the tickets for each of them
+        for proj in projects:
+            proj_count.append(proj["project_name"])
+            proj_receipt = proj["project_name"]
+            if proj_receipt:
+                ticket = list(mongo.db.ticket.find({"project_name": proj_receipt}))
+                tickets.extend(ticket)
+    
     return render_template("dashboard.html", 
         user_name=user_name, projects=projects, tickets=tickets)
 
-
+#App route for search user function - based on Tim's video - The code Institute
 @app.route("/search", methods=["GET", "POST"])
 def search_user():
     query = request.form.get("query")
     user_reg = mongo.db.user.find_one({"$text": {"$search": query}})
     return render_template("manage_user.html", user_reg=user_reg)
 
-
+#App route for Manage User
 @app.route("/manage_user/<user_name>", methods=["GET", "POST"])
 def manage_user(user_name):
     user_reg = mongo.db.user.find_one(
             {"user_name": session["user"]})
     return render_template("manage_user.html", user_reg=user_reg)
 
-
+#App route for editing the user
 @app.route("/edit_user/<user_id>", methods=["GET", "POST"])
 def edit_user(user_id):
     user = mongo.db.user.find_one({"_id": ObjectId(user_id)})
