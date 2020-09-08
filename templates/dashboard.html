@@ -29,23 +29,7 @@
                                 <div class="col s2">
                                     {% if session.category == "manager" %}
                                         <a href="{{ url_for('project_delete_conf', project_name=project.project_name) }}" class="btn-small green accent-4">Delete</a>
-                                        
-                                        <!-- Modal trigger  -->
-                                        <a href="#modalarchive" class="btn-small light-blue lighten-1 modal-trigger">Archive</a>
-                                        <!-- Modal Structure -->
-                                        <div id="modalarchive" class="modal">
-                                            <div class="modal-content black-text">
-                                            <h4>Please confirm to Archive this project</h4>
-                                            <p>Confirming the Archiving of the project will also 
-                                                close all tickets connected to it. The project and tickets 
-                                                are going to still available for review.
-                                            </p>
-                                            </div>
-                                            <div class="modal-footer">
-                                            <a href="#" class="modal-close white-text blue btn">Cancel</a>
-                                            <a href="#" class="modal-close white-text red btn">Confirm</a>
-                                            </div>
-                                        </div>
+                                        <a href="{{ url_for('project_archive_conf', project_name=project.project_name) }}" class="btn-small light-blue lighten-1">Archive</a>
                                     {% endif %}
                                 </div>
                                 <div class="col s9">

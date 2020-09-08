@@ -238,6 +238,12 @@ def delete_project(project_name):
     return redirect(url_for("home"))
 
 
+@app.route("/project_archive_conf/<project_name>", methods=["GET","POST"])
+def project_archive_conf(project_name):
+    project_name = mongo.db.project.find_one({"project_name": project_name})["project_name"]
+    return render_template("project_archive_conf.html", project_name=project_name)
+
+
 @app.route("/logout")
 def logout():
     # remove user from session cookies and return to home
