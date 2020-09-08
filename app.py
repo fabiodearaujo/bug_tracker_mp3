@@ -244,6 +244,25 @@ def project_archive_conf(project_name):
     return render_template("project_archive_conf.html", project_name=project_name)
 
 
+@app.route("/archive_project/<project_name>")
+def archive_project(project_name):
+    projectlist = list(mongo.db.project.find({"project_name": project_name}))
+    project_convert = JSONEncoder().encode(projectlist)
+    projects = json.loads(project_convert)
+    for project in projects:
+        project_update = {
+            "project_name": project["project_name"],
+            "project_description": project["project_description"],
+            "project_target_date": project["project_target_date"],
+            "user_name": project["user_name"],
+            "project_archive": "on"
+        }
+        mongo.db.project.replace_one({"_id": ObjectId(project["_id"])}, project_update)
+
+    flash("The Project is archived successfuly")
+    return redirect(url_for("home"))
+
+
 @app.route("/logout")
 def logout():
     # remove user from session cookies and return to home

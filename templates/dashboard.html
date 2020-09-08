@@ -29,7 +29,9 @@
                                 <div class="col s2">
                                     {% if session.category == "manager" %}
                                         <a href="{{ url_for('project_delete_conf', project_name=project.project_name) }}" class="btn-small green accent-4">Delete</a>
-                                        <a href="{{ url_for('project_archive_conf', project_name=project.project_name) }}" class="btn-small light-blue lighten-1">Archive</a>
+                                        {% if project.project_archive == "off" %}
+                                            <a href="{{ url_for('project_archive_conf', project_name=project.project_name) }}" class="btn-small light-blue lighten-1">Archive</a>
+                                        {% endif %}
                                     {% endif %}
                                 </div>
                                 <div class="col s9">
