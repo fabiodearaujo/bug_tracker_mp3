@@ -302,6 +302,40 @@ def archive_project(project_name):
     return redirect(url_for("home"))
 
 
+# App route to close the ticket
+@app.route("/close_ticket/<ticket_id>")
+def close_ticket(ticket_id):
+    ticket = mongo.db.ticket.find_one({"_id": ObjectId(ticket_id)})
+    ticket_update = {
+        "ticket_title": ticket["ticket_title"],
+        "ticket_description": ticket["ticket_description"],
+        "ticket_status": "closed",
+        "category_name": ticket["category_name"],
+        "project_name": ticket["project_name"],
+        "created_by": ticket["created_by"]
+    }
+    mongo.db.ticket.replace_one({"_id": ObjectId(ticket_id)}, ticket_update)
+    flash("Your Ticket was closed sussesfuly")
+    return redirect(url_for("home"))
+
+
+@app.route("/reopen_ticket/<ticket_id>")
+def reopen_ticket(ticket_id):
+    ticket = mongo.db.ticket.find_one({"_id": ObjectId(ticket_id)})
+    ticket_update = {
+        "ticket_title": ticket["ticket_title"],
+        "ticket_description": ticket["ticket_description"],
+        "ticket_status": "open",
+        "category_name": ticket["category_name"],
+        "project_name": ticket["project_name"],
+        "created_by": ticket["created_by"]
+    }
+    mongo.db.ticket.replace_one({"_id": ObjectId(ticket_id)}, ticket_update)
+    flash("Your Ticket was reopened sussesfuly")
+    return redirect(url_for("home"))
+
+
+
 #App route to Logout
 @app.route("/logout")
 def logout():
