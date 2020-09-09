@@ -339,19 +339,29 @@ def reopen_ticket(ticket_id):
 #App Route to edit the ticket
 @app.route("/edit_ticket/<ticket_id>", methods=["GET","POST"])
 def edit_ticket(ticket_id):
+    if request.method == "POST":
+        #ticket can be updated anytime to include more comments
+        # or completely change it
+        ticket_edit = {
+            "ticket_title": request.form.get("ticket_title"),
+            "ticket_description": request.form.get("ticket_description"),
+            "ticket_status": "open",
+            "category_name": request.form.get("category_name"),
+            "project_name": request.form.get("project_name"),
+            "created_by": session["user"]
+        }
+        mongo.db.ticket.replace_one({"_id": ObjectId(ticket_id)}, ticket_edit)
+
+        flash("Ticket updated Successfully")
+        return redirect(url_for("home"))
+
     ticket = mongo.db.ticket.find_one({"_id": ObjectId(ticket_id)})
-    #flash("Ticket: {}".format(ticket["_id"]))
     ticketid = ticket["_id"]
-    #flash("TicketID: {}".format(ticketid))
     # Get categories from DB to selection on the render template
     categories = list(mongo.db.category.find().sort("category_name", 1))
-    #flash("Categories: {}".format(categories))
     # Get project to link to the ticket
     projects = list(mongo.db.project.find(
         { "user_name": session["user"]}).sort("project_name",1))
-    #flash("Projects: {}".format(projects))
-    #flash(ticket_id)
-    #return redirect(url_for('home'))
     return render_template(
         "edit_ticket.html", ticket_id=ticketid, 
         categories=categories, projects=projects, ticket=ticket)
