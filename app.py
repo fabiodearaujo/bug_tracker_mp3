@@ -319,6 +319,7 @@ def close_ticket(ticket_id):
     return redirect(url_for("home"))
 
 
+#App route to reopen the ticket
 @app.route("/reopen_ticket/<ticket_id>")
 def reopen_ticket(ticket_id):
     ticket = mongo.db.ticket.find_one({"_id": ObjectId(ticket_id)})
@@ -334,6 +335,25 @@ def reopen_ticket(ticket_id):
     flash("Your Ticket was reopened sussesfuly")
     return redirect(url_for("home"))
 
+
+#App Route to edit the ticket
+@app.route("/edit_ticket/<ticket_id>", methods=["GET","POST"])
+def edit_ticket(ticket_id):
+    ticket = mongo.db.ticket.find_one({"_id": ObjectId(ticket_id)})
+    #flash("Ticket: {}".format(ticket["_id"]))
+    ticketid = ticket["_id"]
+    #flash("TicketID: {}".format(ticketid))
+    # Get categories from DB to selection on the render template
+    categories = list(mongo.db.category.find().sort("category_name", 1))
+    #flash("Categories: {}".format(categories))
+    # Get project to link to the ticket
+    projects = list(mongo.db.project.find(
+        { "user_name": session["user"]}).sort("project_name",1))
+    #flash("Projects: {}".format(projects))
+    #flash(ticket_id)
+    #return redirect(url_for('home'))
+    return render_template("edit_ticket.html", ticket_id=ticketid, 
+        categories=categories, projects=projects, tickets=ticket)
 
 
 #App route to Logout

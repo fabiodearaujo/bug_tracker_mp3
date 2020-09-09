@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    <link rel="shortcut icon" href="static/img/bugtrackerlogodark.svg" type="image/x-icon">
+{% endblock %}
+
+{% block logo %}
+    <a href="{{ url_for('home') }}" class="brand-logo" style="padding-left: 20px; padding-top: 5px;"><img src="static\img\bugtrackerlogolight.svg" height="50px" width="50px" alt="Bug Tracker Logo"></a>
+{% endblock %}
+
+{% block content %}
+    <h3 class="center-align">Edit Ticket</h3>
+
+    <div class="row top-spacing">
+        <form class="col s12 m8 offset-m2" method="POST" action="{{ url_for('edit_ticket') }}">
+            <div class="card-panel">
+                <!-- ticket title field -->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="fas fa-ticket-alt prefix light-blue-text text-darken-4"></i>
+                        <input id="ticket_title" name="ticket_title" type="text" minlenght="5" 
+                            value="{{ ticket.ticket_title }}" maxlenght="50" class="validate" required>
+                        <label for="ticket_title">Ticket Title</label>
+                    </div>
+                </div>
+                <!-- ticket description  -->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="fas fa-align-left prefix light-blue-text text-darken-4"></i>
+                        <textarea id="ticket_description" name="ticket_description" minlength="5" 
+                            maxlength="300" class="materialize-textarea validate" 
+                            value="{{ ticket.ticket_description }}" required></textarea>
+                        <label for="ticket_description">Ticket Description</label>
+                    </div>
+                </div>
+                <!-- category selection  -->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="fas fa-tag prefix light-blue-text text-darken-4"></i>
+                        <select id="category_name" name="category_name" class="validate" required>
+                            <option value="{{ ticket.category_name }}" selected>{{ ticket.category_name }}</option>
+                            {% for category in categories %}
+                                <option value="{{ category.category_name }}">{{ category.category_name }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="category_name">Ticket Category</label>
+                    </div>
+                </div>
+                <!-- project seletcion  -->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="fas fa-clipboard-check prefix light-blue-text text-darken-4"></i>
+                        <select id="project_name" name="project_name" class="validate" required>
+                            <option value="{{ ticket.project_name }}" selected>{{ ticket.project_name }}</option>
+                            {% for project in projects %}
+                                {% if project.user_name == session.user %}
+                                    {% if project.project_archive == "off" %}
+                                        <option value="{{ project.project_name }}">{{ project.project_name }}</option>
+                                    {% else %}
+                                        <option value="{{ project.project_name }}" disabled>{{ project.project_name }}</option>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <label for="project_name">Project</label>
+                    </div>
+                </div>
+                <!-- Cancel or Update buttons  -->
+                <div class="row">
+                    <a class="col s12 btn-large red darken-4 text-shadow" href="{{ url_for('home') }}">
+                        <i class="fas fa-window-close right-pad"></i>Cancel
+                    </a>
+                    <button type="submit" class="col s12 btn-large light-blue darken-4 text-shadow">
+                        <i class="fas fa-check-double right-pad"></i>Update Ticket
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+   
+{% endblock %}
