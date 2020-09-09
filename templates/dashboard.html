@@ -28,9 +28,9 @@
                                 </div>
                                 <div class="col s2">
                                     {% if session.category == "manager" %}
-                                        <a href="{{ url_for('project_delete_conf', project_name=project.project_name) }}" class="btn-small green accent-4">Delete</a>
+                                        <a href="{{ url_for('project_delete_conf', project_name=project.project_name) }}" class="btn-small red darken-1">Delete</a>
                                         {% if project.project_archive == "off" %}
-                                            <a href="{{ url_for('project_archive_conf', project_name=project.project_name) }}" class="btn-small light-blue lighten-1">Archive</a>
+                                            <a href="{{ url_for('project_archive_conf', project_name=project.project_name) }}" class="btn-small blue darken-1">Archive</a>
                                         {% endif %}
                                     {% endif %}
                                 </div>
@@ -72,10 +72,10 @@
                                 </div>
                                 <div class="col s2">
                                     {% if ticket.ticket_status == "open" %}
-                                        <a href="{{ url_for('close_ticket', ticket_id=ticket._id) }}" class="btn-small green accent-4">Close</a>
-                                        <a href="{{ url_for('edit_ticket', ticket_id=ticket._id) }}" class="btn-small light-blue lighten-1">Edit</a>
+                                        <a href="{{ url_for('close_ticket', ticket_id=ticket._id) }}" class="btn-small green darken-2">Close</a>
+                                        <a href="{{ url_for('edit_ticket', ticket_id=ticket._id) }}" class="btn-small blue darken-1">Edit</a>
                                     {% else %}
-                                        <a href="{{ url_for('reopen_ticket', ticket_id=ticket._id) }}" class="btn-small green accent-4">Reopen</a>
+                                        <a href="{{ url_for('reopen_ticket', ticket_id=ticket._id) }}" class="btn-small green darken-2">Reopen</a>
                                     {% endif %}
                                 </div>
                                 <div class="col s9">
