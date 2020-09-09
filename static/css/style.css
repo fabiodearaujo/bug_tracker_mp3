@@ -9,6 +9,11 @@
     margin-top: 100px;
 }
 
+.bottom-spacing {
+    margin-bottom: 20px;
+}
+
+
 /* Using this class it will including a space on the right side of 15px
 to be used on the buttons after font awesome icon */
 .right-pad {
