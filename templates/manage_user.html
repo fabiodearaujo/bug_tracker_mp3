@@ -21,8 +21,8 @@
                         <label for="query">Search Users</label>
                     </div>
                     <div class="col s12 m4">
-                        <a href="{{ url_for('manage_user', user_name=session['user']) }}" class="red btn text-shadow">Reset</a>
-                        <button type="submit" class="btn light-blue darken-1 text-shadow">
+                        <a href="{{ url_for('manage_user', user_name=session['user']) }}" class="red btn">Reset</a>
+                        <button type="submit" class="btn light-blue darken-1">
                             <i class="fas fa-search left"></i>Search
                         </button>
                     </div>
@@ -49,14 +49,14 @@
                 <!-- Update button  -->
                 <div class="row">
                     {% if session.category == "manager" %}
-                        <a href="{{ url_for('edit_user', user_id=user_reg._id) }}" class="col s12 m3 offset-m2 btn-large light-blue darken-4 text-shadow top-spacing">
+                        <a href="{{ url_for('edit_user', user_id=user_reg._id) }}" class="col s12 m3 offset-m2 btn-large light-blue darken-4 top-spacing">
                             <i class="fas fa-user-edit right-pad"></i>Edit user...
                         </a>
-                        <a href="{{ url_for('change_pass', user_id=user_reg._id) }}" class="col s12 m3 offset-m2 btn-large light-blue darken-4 text-shadow top-spacing">
+                        <a href="{{ url_for('change_pass', user_id=user_reg._id) }}" class="col s12 m3 offset-m2 btn-large light-blue darken-4 top-spacing">
                             <i class="fas fa-user-shield right-pad"></i>Change Password...
                         </a>
                     {% else %}
-                        <a href="{{ url_for('change_pass', user_id=user_reg._id) }}" class="col s12 m4 offset-m4 btn-large light-blue darken-4 text-shadow top-spacing">
+                        <a href="{{ url_for('change_pass', user_id=user_reg._id) }}" class="col s12 m4 offset-m4 btn-large light-blue darken-4 top-spacing">
                             <i class="fas fa-user-shield right-pad"></i>Change Password...
                         </a>
                     {% endif %}

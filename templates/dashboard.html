@@ -22,7 +22,7 @@
                 <ul class="collapsible">
                     {% for project in projects %}
                         <li>
-                            <div class="collapsible-header white-text light-blue darken-4 text-shadow">
+                            <div class="collapsible-header white-text light-blue darken-4">
                                 <div class="col s1">
                                     <i class="fas fa-caret-down"></i>
                                 </div>
@@ -66,16 +66,16 @@
                 <ul class="collapsible">
                     {% for ticket in tickets %}
                         <li>
-                            <div class="collapsible-header white-text light-blue darken-4 text-shadow">
+                            <div class="collapsible-header white-text light-blue darken-4">
                                 <div class="col s1">
                                     <i class="fas fa-caret-down"></i>
                                 </div>
                                 <div class="col s2">
                                     {% if ticket.ticket_status == "open" %}
-                                        <a href="{{ url_for('close_ticket', ticket_id=ticket._id) }}" class="btn-small green darken-2">Close</a>
+                                        <a href="{{ url_for('close_ticket', ticket_id=ticket._id) }}" class="btn-small red darken-2">Close</a>
                                         <a href="{{ url_for('edit_ticket', ticket_id=ticket._id) }}" class="btn-small blue darken-1">Edit</a>
                                     {% else %}
-                                        <a href="{{ url_for('reopen_ticket', ticket_id=ticket._id) }}" class="btn-small green darken-2">Reopen</a>
+                                        <a href="{{ url_for('reopen_ticket', ticket_id=ticket._id) }}" class="btn-small orange darken-2">Reopen</a>
                                     {% endif %}
                                 </div>
                                 <div class="col s9">

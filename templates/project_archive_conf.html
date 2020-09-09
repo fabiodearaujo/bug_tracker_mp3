@@ -24,9 +24,9 @@
                             are going to still available for review.</strong></h6>
                     </div>
                     <div class="row">
-                        <a href="{{ url_for('dashboard', user_name=session['user']) }}" class="col s12 m3 offset-m2 btn-large red darken-4 text-shadow top-spacing">
+                        <a href="{{ url_for('dashboard', user_name=session['user']) }}" class="col s12 m3 offset-m2 btn-large red darken-4 top-spacing">
                             <i class="fas fa-window-close right-pad"></i>Cancel</a>
-                        <a href="{{ url_for('archive_project', project_name=project_name) }}" class="col s12 m3 offset-m2 btn-large light-blue darken-4 text-shadow top-spacing">
+                        <a href="{{ url_for('archive_project', project_name=project_name) }}" class="col s12 m3 offset-m2 btn-large light-blue darken-4 top-spacing">
                             <i class="fas fa-check-square right-pad"></i>Confirm</a>
                     </div>
                 </div>

@@ -9,12 +9,6 @@
     margin-top: 100px;
 }
 
-
-/* Using this class will add a gray shadow to the text (this part was demosntrated on Tim videos) */
-.text-shadow {
-    text-shadow: 2px 2px 2px rgba(247, 247, 247, 0.5);
-}
-
 /* Using this class it will including a space on the right side of 15px
 to be used on the buttons after font awesome icon */
 .right-pad {
