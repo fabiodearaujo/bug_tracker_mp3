@@ -22,9 +22,9 @@
                         <h6 class="text-red center-align"><strong>Confirming the deletion of the project will also 
                             delete all tickets connected to it.</strong></h6>
                     </div>
-                    <div class="col s12 center-align top-spacing">
-                        <a href="{{ url_for('dashboard', user_name=session['user']) }}" class="white-text blue btn right-pad">Cancel</a>
-                        <a href="{{ url_for('delete_project', project_name=project_name) }}" class="white-text red btn">Confirm</a>
+                    <div class="row">
+                        <a href="{{ url_for('dashboard', user_name=session['user']) }}" class="col s12 m3 offset-m2 btn-large red darken-4 text-shadow top-spacing">Cancel</a>
+                        <a href="{{ url_for('delete_project', project_name=project_name) }}" class="col s12 m3 offset-m2 btn-large light-blue darken-4 text-shadow top-spacing">Confirm</a>
                     </div>
                 </div>
             </div>

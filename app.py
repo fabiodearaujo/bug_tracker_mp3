@@ -352,8 +352,9 @@ def edit_ticket(ticket_id):
     #flash("Projects: {}".format(projects))
     #flash(ticket_id)
     #return redirect(url_for('home'))
-    return render_template("edit_ticket.html", ticket_id=ticketid, 
-        categories=categories, projects=projects, tickets=ticket)
+    return render_template(
+        "edit_ticket.html", ticket_id=ticketid, 
+        categories=categories, projects=projects, ticket=ticket)
 
 
 #App route to Logout
