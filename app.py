@@ -300,7 +300,7 @@ def archive_project(project_name):
         mongo.db.project.replace_one({"_id": ObjectId(project["_id"])}, project_update)
 
     flash("The Project is archived successfuly")
-    return redirect(url_for("home"))
+    return redirect(url_for("dashboard", user_name=session["user"]))
 
 
 # App route to close the ticket
