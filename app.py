@@ -334,7 +334,7 @@ def reopen_ticket(ticket_id):
     }
     mongo.db.ticket.replace_one({"_id": ObjectId(ticket_id)}, ticket_update)
     flash("Your Ticket was reopened sussesfuly")
-    return redirect(url_for("home"))
+    return redirect(url_for("dashboard", user_name=session["user"]))
 
 
 #App Route to edit the ticket
