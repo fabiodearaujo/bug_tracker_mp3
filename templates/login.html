@@ -37,7 +37,7 @@
                 </div>
                 <!-- Login button  -->
                 <div class="row">
-                    <button type="submit" class="col s12 btn-large light-blue darken-4">
+                    <button type="submit" class="col s12 m4 offset-m4 btn-large light-blue darken-4">
                         <i class="fas fa-sign-in-alt right-pad"></i>Log in
                     </button>
                 </div>
@@ -50,6 +50,7 @@
             <p class="center-align">
                 Not yet Registered?
                 <a href="{{ url_for('register') }}" class="light-blue-text text-darken-4">Register</a>
+                <p class="center-align">Login as <a href="{{ url_for('admin_login') }}">Admin</a> for demostration.</p>
             </p>
         </div>
     </div>

@@ -30,7 +30,7 @@ This is a webapp aimed to work as a tool to help to manage Projects and Tickets 
 -   ### Design
 
     -   #### General
-        -   This Webapp with a simple language keeping the navbar menu on top when on desktop and on the side activated by a hamburguer button style aking the navigation very easy and accessible from anywhere. The Menu is dynamic showing only allowed options to regular or manager (admin) users.
+        -   This Webapp with a simple language keeping the navbar menu on top when on desktop and on the side activated by a hamburguer button style aking the navigation very easy and accessible from anywhere. The Menu is dynamic showing only allowed options to regular or manager (admin) users. The admin has the power to create Projects and assign to users. Also the admin can reset any user's password if necessary or modify the user to be another admin. After logged in the user is presented with the Dashboard that will list all projects and its related tickets.
 
     -   #### Colour Scheme
         -   The blue colour was chosen as the main tone as it is known to be a calming colour. The contrast ratio was taken in consideration to every person be able to read clearly.

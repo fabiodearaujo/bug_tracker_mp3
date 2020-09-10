@@ -14,6 +14,7 @@ app = Flask(__name__)
 app.config["MONGO_DBNAME"] = os.environ.get("MONGO_DBNAME")
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 app.secret_key = os.environ.get("SECRET_KEY")
+admpass = os.environ.get("ADMPASS")
 
 mongo = PyMongo(app)
 
@@ -87,6 +88,23 @@ def login():
             return redirect(url_for("login"))
 
     return render_template("login.html")
+
+
+# App route to login as Admin for test purposes
+@app.route("/admin_login")
+def admin_login():
+    existing_user = mongo.db.user.find_one(
+            {"user_name": "admintest"})
+    if check_password_hash(
+            existing_user["user_pass"], admpass):
+                    session["user"] = existing_user["user_name"]
+                    session["category"] = existing_user["user_category"]
+                    flash("Welcome, {}!".format(existing_user["user_name"]))
+                    return redirect(url_for(
+                        "dashboard", user_name=session["user"]))
+    else:
+                flash("Please contact the developer")
+                return redirect(url_for("login"))
 
 
 #App route for the User Dashboard where it will be displayed the projects and tickets
