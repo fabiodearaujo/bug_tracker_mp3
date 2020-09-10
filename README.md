@@ -4,6 +4,6 @@
 
 This is a webapp aimed to work as a tool to help to manage Projects and Tickets within a Team. It was designed to be simple and easy to use.
 
-<img src="/static/img/homepagedesktop.png"><img src="/static/img/homepagemobile.png">
+<img src="https://github.com/fabioaraujo76/bug_tracker_mp3/blob/master/static/img/homepagedesktop.PNG"><img src="https://github.com/fabioaraujo76/bug_tracker_mp3/blob/master/static/img/homepagemobile.PNG">
 
 
