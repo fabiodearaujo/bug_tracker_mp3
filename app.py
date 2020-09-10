@@ -300,6 +300,25 @@ def project_archive_conf(project_name):
 # App Route to Archiving project function
 @app.route("/archive_project/<project_name>")
 def archive_project(project_name):
+    #Getting tickets related to the project
+    ticketlist = list(mongo.db.ticket.find({"project_name": project_name}))
+    #For some reason the list was not in the correct format and I had to encode it
+    ticket_convert = JSONEncoder().encode(ticketlist)
+    #Again another transformation to be able to work with the data
+    tickets = json.loads(ticket_convert)
+    #loop through the tickets and close all tickets related to the project
+    for ticket in tickets:
+        ticket_id = ticket['_id']
+        ticket_edit = {
+            "ticket_title": ticket["ticket_title"],
+            "ticket_description": ticket["ticket_description"],
+            "ticket_status": "closed",
+            "category_name": ticket["category_name"],
+            "project_name": ticket["project_name"],
+            "created_by": session["user"]
+        }
+        mongo.db.ticket.replace_one({"_id": ObjectId(ticket_id)}, ticket_edit)
+
     #Get the list of projects
     projectlist = list(mongo.db.project.find({"project_name": project_name}))
     #encode it
