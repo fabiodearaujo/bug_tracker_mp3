@@ -4,7 +4,7 @@
 
 This is a webapp aimed to work as a tool to help to manage Projects and Tickets within a Team. It was designed to be simple and easy to use.
 
-<img src="https://sbug-tracker.herokuapp.com/static/img/homepagedesktop.PNG" height="250px"> - <img src="https://sbug-tracker.herokuapp.com/static/img/homepagemobile.PNG" height="250px">
+<p align="center"><img src="https://sbug-tracker.herokuapp.com/static/img/homepagedesktop.PNG" height="250px"> - <img src="https://sbug-tracker.herokuapp.com/static/img/homepagemobile.PNG" height="250px"></p>
 
  ## User Experience (UX)
 
