@@ -354,7 +354,7 @@ def edit_ticket(ticket_id):
         mongo.db.ticket.replace_one({"_id": ObjectId(ticket_id)}, ticket_edit)
 
         flash("Ticket updated Successfully")
-        return redirect(url_for("home"))
+        return redirect(url_for("dashboard", user_name=session["user"]))
 
     ticket = mongo.db.ticket.find_one({"_id": ObjectId(ticket_id)})
     ticketid = ticket["_id"]
