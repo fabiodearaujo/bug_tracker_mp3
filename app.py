@@ -19,6 +19,7 @@ mongo = PyMongo(app)
 
 # Solution from stack overflow to resolve error
 # TypeError: Object of type ObjectId is not JSON serializable
+# https://stackoverflow.com/questions/16586180/typeerror-objectid-is-not-json-serializable
 # It was not possible to read the result returned form the DB
 class JSONEncoder(json.JSONEncoder):
     def default(self, o):
@@ -268,7 +269,7 @@ def delete_project(project_name):
         mongo.db.project.remove({"_id": ObjectId(project_id)})
 
     flash("The Project and its Tickets were deleted successfuly")
-    return redirect(url_for("home"))
+    return redirect(url_for("dashboard", user_name=session["user"]))
 
 
 # App route to Project Archiving confirmation
