@@ -14,11 +14,11 @@
         <h2 class="light-blue-text text-darken-4 center-align">Welcome to Simple Bug Tracker</h2>
         <h4 class="light-blue-text text-darken-4 center-align">A simple tool to help on your project</h4>
         {% if session.user %}
-            <h5 class="red-text text-darken-4 center-align top-spacing">You are logged in, use the 
-                <a href="{{ url_for('dashboard', user_name=session['user']) }}">Dashboard</a> to check your Project and Tickets</h5>
+            <h5 class="center-align top-spacing">You are logged in, use the 
+                <a href="{{ url_for('dashboard', user_name=session['user']) }}" style="color: red;">Dashboard</a> to check your Project and Tickets</h5>
         {% else %}
-            <h5 class="red-text text-darken-4 center-align top-spacing">Please <a href="{{ url_for('login') }}" class="light-blue-text text-darken-4">
-                Log In</a> or <a href="{{ url_for('register') }}" class="light-blue-text text-darken-4">Register</a> to Start</h5>
+            <h5 class="center-align top-spacing">Please <a href="{{ url_for('login') }}" style="color: red;">
+                Log In</a> or <a href="{{ url_for('register') }}" style="color: red;">Register</a> to Start</h5>
         {% endif %}
     </div>
 {% endblock %}
