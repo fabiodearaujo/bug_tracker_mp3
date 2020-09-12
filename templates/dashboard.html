@@ -23,26 +23,36 @@
                     {% for project in projects %}
                         <li>
                             <div class="collapsible-header white-text light-blue darken-4">
-                                <div class="col s1">
+                                <div class="col s2">
                                     <i class="fas fa-caret-down"></i>
                                 </div>
-                                <div class="col s4">
-                                    {% if session.category == "manager" %}
+                                {% if session.category == "manager" %}
+                                    <div class="col s5">
                                         <a href="{{ url_for('project_delete_conf', project_name=project.project_name) }}" class="btn-small red darken-1 bottom-spacing">Delete</a>
                                         {% if project.project_archive == "off" %}
                                             <a href="{{ url_for('project_archive_conf', project_name=project.project_name) }}" class="btn-small blue darken-1 bottom-spacing">Archive</a>
                                         {% endif %}
-                                    {% endif %}
-                                </div>
-                                <div class="col s7">
-                                    <strong>Project: </strong>{{ project.project_name }}
-                                    <p><strong>Target Date: </strong>{{ project.project_target_date }}</p>
-                                    {% if project.project_archive == "off" %}
-                                        <p><strong>Status: </strong><em>Active</em></p>
-                                    {% else %}
-                                    <p><strong>Status: </strong><em>Archived</em></p>
-                                    {% endif %}
-                                </div>
+                                    </div>
+                                    <div class="col s5">
+                                        <strong>Project: </strong>{{ project.project_name }}
+                                        <p><strong>Target Date: </strong>{{ project.project_target_date }}</p>
+                                        {% if project.project_archive == "off" %}
+                                            <p><strong>Status: </strong><em>Active</em></p>
+                                        {% else %}
+                                        <p><strong>Status: </strong><em>Archived</em></p>
+                                        {% endif %}
+                                    </div>
+                                {% else %}
+                                    <div class="col s10">
+                                        <strong>Project: </strong>{{ project.project_name }}
+                                        <p><strong>Target Date: </strong>{{ project.project_target_date }}</p>
+                                        {% if project.project_archive == "off" %}
+                                            <p><strong>Status: </strong><em>Active</em></p>
+                                        {% else %}
+                                        <p><strong>Status: </strong><em>Archived</em></p>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
                             </div>
                             <div class="collapsible-body">
                                 <strong>Description</strong>
@@ -68,10 +78,10 @@
                     {% for ticket in tickets %}
                         <li>
                             <div class="collapsible-header white-text light-blue darken-4">
-                                <div class="col s1">
+                                <div class="col s2">
                                     <i class="fas fa-caret-down"></i>
                                 </div>
-                                <div class="col s4">
+                                <div class="col s5">
                                     {% if ticket.ticket_status == "open" %}
                                         <a href="{{ url_for('close_ticket', ticket_id=ticket._id) }}" class="btn-small red darken-2 bottom-spacing">Close</a>
                                         <a href="{{ url_for('edit_ticket', ticket_id=ticket._id) }}" class="btn-small blue darken-1 bottom-spacing">Edit</a>
@@ -79,7 +89,7 @@
                                         <a href="{{ url_for('reopen_ticket', ticket_id=ticket._id) }}" class="btn-small orange darken-2 bottom-spacing">Reopen</a>
                                     {% endif %}
                                 </div>
-                                <div class="col s7">
+                                <div class="col s5">
                                     <strong>Project: </strong>{{ ticket.project_name }}
                                     <p><strong>Category: </strong>{{ ticket.category_name }}</p>
                                     <p><strong>Title : </strong>{{ ticket.ticket_title }}</p>
