@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row card-panel grey lighten-4 center-align top-spacing-double">
+    <div class="row card-panel grey lighten-4 center-align top-spacing">
         <img src="static/img/bugtrackerlogodark.svg" class="center-align" height="150px" width="150px" alt=""/>
         <h2 class="light-blue-text text-darken-4 center-align">Welcome to Simple Bug Tracker</h2>
         <h4 class="light-blue-text text-darken-4 center-align">A simple tool to help on your project</h4>
@@ -21,4 +21,17 @@
                 Log In</a> or <a href="{{ url_for('register') }}" style="color: red;">Register</a> to Start</h5>
         {% endif %}
     </div>
+
+    <div class="row card-panel blue lighten-3 top-spacing">
+        <div class="col s12 m3 offset-m2" style="text-align: right;">
+            <img id="w_icon" src= {{ w_dictionary.icon }} alt="Weather Icon"><br>{{ w_dictionary.condition }}<br>{{ w_dictionary.description }}
+            <br>Umidity: {{ w_dictionary.humidity }}%
+        </div>
+        <div class="col s12 m2 left-align">
+            <h2>{{ w_dictionary.city }}</h2>
+            <h5>{{ w_dictionary.temperature }}&deg; C</h5>
+            
+        </div>
+    </div>
+    
 {% endblock %}

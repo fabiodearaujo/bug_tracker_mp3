@@ -12,6 +12,7 @@ if os.path.exists("env.py"):
 
 app = Flask(__name__)
 
+#Enviroment configuration variables
 app.config["MONGO_DBNAME"] = os.environ.get("MONGO_DBNAME")
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 app.secret_key = os.environ.get("SECRET_KEY")
@@ -32,9 +33,28 @@ class JSONEncoder(json.JSONEncoder):
 
 
 @app.route("/")
-@app.route("/home")
+@app.route("/home", methods=["GET", "POST"])
 def home():
-    return render_template("home.html")
+    #Setting up the API URL to request the JSON file
+    api_url = "http://api.openweathermap.org/data/2.5/weather?&APPID={}&q={}&units=metric"    
+    #Request Data from API including api_key and city (in the future to inplement city search)
+    w_request = requests.get(api_url.format(api_key, "Dublin,IE"))
+    weather = w_request.json()
+    w_icon = "http://openweathermap.org/img/wn/{}@2x.png".format(
+        weather["weather"][0]["icon"])
+    w_cond = weather["weather"][0]["main"]
+    w_desc = weather["weather"][0]["description"]
+    w_temp = int(weather["main"]["temp"])
+    w_hum = int(weather["main"]["humidity"])
+    w_dictionary = {
+        "city": "Dublin,IE",
+        "condition": w_cond,
+        "description": w_desc,
+        "temperature": w_temp,
+        "humidity": w_hum,
+        "icon": w_icon
+    }
+    return render_template("home.html", w_dictionary=w_dictionary)
 
 
 # App route for User Registration - based on Tim's videos - The Code Institute
