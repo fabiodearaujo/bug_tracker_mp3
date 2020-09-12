@@ -23,13 +23,15 @@
     </div>
 
     <div class="row card-panel blue lighten-3 top-spacing">
-        <div class="col s12 m3 offset-m2" style="text-align: right;">
+        <h4 class="center-align">Weather Information</h4>
+        <div class="col s12 m3 offset-m3" style="text-align: center">
             <img id="w_icon" src= {{ w_dictionary.icon }} alt="Weather Icon"><br>{{ w_dictionary.condition }}<br>{{ w_dictionary.description }}
-            <br>Umidity: {{ w_dictionary.humidity }}%
+            
         </div>
-        <div class="col s12 m2 left-align">
-            <h2>{{ w_dictionary.city }}</h2>
-            <h5>{{ w_dictionary.temperature }}&deg; C</h5>
+        <div class="col s12 m3 center-align">
+            <h4>{{ w_dictionary.city }}</h4>
+            <h6>{{ w_dictionary.temperature }}&deg; C</h6>
+            <br>Umidity: {{ w_dictionary.humidity }}%
             
         </div>
     </div>
