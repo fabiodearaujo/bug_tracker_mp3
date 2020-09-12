@@ -19,8 +19,9 @@
                     <div class="input-field col s12">
                         <i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
                         <input id="user_pass" name="user_pass" type="password" minlenght="8" 
-                            maxlenght="15" pattern="^[a-zA-Z0-9]{5,15}$" class="validate" required>
+                            maxlenght="15" pattern="^[a-zA-Z0-9!&$%*#]{5,15}$" class="validate" required>
                         <label for="user_pass">New Password</label>
+                        <span class="helper-text left-align" data-error="New password must be a minimum of 8 characteres" data-success="Great">Type the new password for the user and confirm</span>
                     </div>
                 </div>
                 <!-- button to save the changes  -->

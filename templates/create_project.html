@@ -19,8 +19,9 @@
                     <div class="input-field col s12">
                         <i class="fas fa-clipboard-list prefix light-blue-text text-darken-4"></i>
                         <input id="project_name" name="project_name" type="text" minlenght="5" 
-                            maxlenght="15" class="validate" required>
+                            maxlenght="20" class="validate" required>
                         <label for="project_name">Project Name</label>
+                        <span class="helper-text left-align" data-error="Must have a minimum of 5 characteres and maximum 20" data-success="Great">Enter the Project Name</span>
                     </div>
                 </div>
                 <!-- project description  -->
@@ -28,8 +29,9 @@
                     <div class="input-field col s12">
                         <i class="fas fa-align-left prefix light-blue-text text-darken-4"></i>
                         <textarea id="project_description" name="project_description" minlength="5" 
-                            maxlength="200" class="materialize-textarea validate" required></textarea>
+                            maxlength="100" class="materialize-textarea validate" required></textarea>
                         <label for="project_description">Project Description</label>
+                        <span class="helper-text left-align" data-error="Minimum of 5 characteres and maximum of 100" data-success="Great">Enter the Project Description</span>
                     </div>
                 </div>
                 <!-- project target date picker  -->
@@ -38,6 +40,7 @@
                         <i class="fas fa-calendar-alt prefix light-blue-text text-darken-4"></i>
                         <input id="project_target_date" name="project_target_date" type="text" class="datepicker validate" required>
                         <label for="project_target_date">Project Target Date</label>
+                        <span class="helper-text left-align" data-error="Data Format 25, Sep 2020" data-success="Great">Pick the end date of the Project</span>
                     </div>
                 </div>
                 <div class="row">
@@ -50,6 +53,7 @@
                             {% endfor %}
                         </select>
                         <label for="user_name">Users</label>
+                        <span class="helper-text left-align" data-error="Select at least 1 user" data-success="Great">Select users to access this project</span>
                     </div>
                 </div>
                 <!-- register button  -->
