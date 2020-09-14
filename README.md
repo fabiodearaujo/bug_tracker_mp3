@@ -4,7 +4,7 @@
 
 This is a webapp aimed to work as a tool to help to manage Projects and Tickets within a Team. It was designed to be simple and easy to use.
 
-<p align="center"><img src="https://sbug-tracker.herokuapp.com/static/img/homepagedesktop.PNG" height="250px"> - <img src="https://sbug-tracker.herokuapp.com/static/img/homepagemobile.PNG" height="250px"></p>
+<p align="center"><img src="https://sbug-tracker.herokuapp.com/static/img/homepagedesktop.PNG" height="350px"> - <img src="https://sbug-tracker.herokuapp.com/static/img/homepagemobile.PNG" height="350px"></p>
 
  ## User Experience (UX)
 
@@ -35,11 +35,18 @@ This is a webapp aimed to work as a tool to help to manage Projects and Tickets 
     -   #### Colour Scheme
         -   The blue colour was chosen as the main tone as it is known to be a calming colour. The contrast ratio was taken in consideration to every person be able to read clearly.
 
-       ### Wireframes
+       #### Wireframes
 
     -   Home Page Wireframe - [View](https://drive.google.com/file/d/1Kv-Sk2_msZDNv4PUR4pR-ubz8vcapROn/view?usp=sharing)
     -   Logo Icon Design - [View](https://drive.google.com/file/d/1cUnwxe_87_Z0uGhLj3LODkmWDF6zAkcx/view?usp=sharing)
 
+- ### Database Design
+
+    -   #### General
+        - The Database was laid with tables to reflect the need of the app at this moment. It was taken in consideration that tables should be simple and data must be easy to retrieve.
+        
+        <p align="center"><img src="https://sbug-tracker.herokuapp.com/static/img/DBdiagram.PNG" height="350px"></p>
+    
 
 ## Features
 
@@ -49,6 +56,8 @@ This is a webapp aimed to work as a tool to help to manage Projects and Tickets 
 
 -   Login with encripted password
 
--   Admin mode
+-   Admin demostration mode
 
 -   Archive Project to be able to review it
+
+-   Weather information on Home page
