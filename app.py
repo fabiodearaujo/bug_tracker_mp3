@@ -180,7 +180,7 @@ def edit_user(user_id):
         # modify user name and category with the information from the form
         # but leave password untouched.
         modify = {
-            "user_name": request.form.get("user_name").lower(),
+            "user_name": user["user_name"],
             "user_pass": user["user_pass"],
             "user_category": request.form.get("user_category")
         }
