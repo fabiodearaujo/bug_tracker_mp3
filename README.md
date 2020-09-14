@@ -4,7 +4,8 @@
 
 This is a webapp aimed to work as a tool to help to manage Projects and Tickets within a Team. It was designed to be simple and easy to use.
 
-<p align="center"><img src="https://sbug-tracker.herokuapp.com/static/img/homepagedesktop.PNG" height="350px"> - <img src="https://sbug-tracker.herokuapp.com/static/img/homepagemobile.PNG" height="350px"></p>
+<p align="center"><img src="https://sbug-tracker.herokuapp.com/static/img/SimpleBugTrackermockup.png" height="500px"><br>
+<h7 href="https://www.freepik.com/vectors/background">Background vector created by rawpixel.com - www.freepik.com</h7>
 
  ## User Experience (UX)
 
@@ -45,7 +46,7 @@ This is a webapp aimed to work as a tool to help to manage Projects and Tickets 
     -   #### General
         - The Database was laid with tables to reflect the need of the app at this moment. It was taken in consideration that tables should be simple and data must be easy to retrieve.
         
-        <p align="center"><img src="https://sbug-tracker.herokuapp.com/static/img/DBdiagram.PNG" height="350px"></p>
+        <p align="center"><img src="https://sbug-tracker.herokuapp.com/static/img/DBdiagram.PNG" height="500px"></p>
     
 
 ## Features
