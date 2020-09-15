@@ -109,10 +109,15 @@ This is a webapp aimed to work as a tool to help to manage Projects and Tickets 
 
 The W3C Markup Validator and W3C CSS Validator Services were used to validate the page of the project to ensure there were no syntax errors.
 
--   [W3C Markup Validator](https://jigsaw.w3.org/css-validator/#validate_by_input)
+-   [W3C Markup Validator](https://validator.w3.org/)
     -   The validator picked up 2 different errors and 1 warning. The errors and warning were corrected.
+    -   Test passed with no Warnings or Errors.
 
 -   [W3C CSS Validator](https://jigsaw.w3.org/css-validator/#validate_by_input)
+    -   The validator found 1 Error and 493 Warnings in the Materialize CSS stylesheet. All other CSS were Valid.
+
+-   [W3C Broken Link Checker](https://validator.w3.org/checklink?uri=https%3A%2F%2Fsbug-tracker.herokuapp.com%2F&hide_type=all&depth=&check=Check)
+    -   The validator found 1 redirection link that is now corrected.
 
 ### Further Testing
 
