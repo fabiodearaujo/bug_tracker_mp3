@@ -110,6 +110,8 @@ This is a webapp aimed to work as a tool to help to manage Projects and Tickets 
 The W3C Markup Validator and W3C CSS Validator Services were used to validate the page of the project to ensure there were no syntax errors.
 
 -   [W3C Markup Validator](https://jigsaw.w3.org/css-validator/#validate_by_input)
+    -   The validator picked up 2 different errors and 1 warning. The errors and warning were corrected.
+
 -   [W3C CSS Validator](https://jigsaw.w3.org/css-validator/#validate_by_input)
 
 ### Further Testing
