@@ -22,38 +22,51 @@
                 <ul class="collapsible">
                     {% for project in projects %}
                         <li>
-                            <div class="collapsible-header white-text light-blue darken-4">
-                                <div class="col s2">
-                                    <i class="fas fa-caret-down"></i>
-                                </div>
-                                {% if session.category == "manager" %}
-                                    <div class="col s5">
-                                        <a href="{{ url_for('project_delete_conf', project_name=project.project_name) }}" class="btn-small red darken-1 bottom-spacing">Delete</a>
-                                        {% if project.project_archive == "off" %}
+                            {% if project.project_archive == "on" %}
+                                <div class="collapsible-header white-text grey darken-3">
+                                    <div class="col s2">
+                                        <i class="fas fa-caret-down"></i>
+                                    </div>
+                                    {% if session.category == "manager" %}
+                                        <div class="col s5">
+                                            <a href="{{ url_for('project_delete_conf', project_name=project.project_name) }}" class="btn-small red darken-1 bottom-spacing">Delete</a>
+                                        </div>
+                                        <div class="col s5">
+                                            <strong>Project: </strong>{{ project.project_name }}
+                                            <p><strong>Target Date: </strong>{{ project.project_target_date }}</p>
+                                            <p><strong>Status: </strong><em>Archived</em></p>
+                                        </div>
+                                    {% else %}
+                                        <div class="col s10">
+                                            <strong>Project: </strong>{{ project.project_name }}
+                                            <p><strong>Target Date: </strong>{{ project.project_target_date }}</p>
+                                            <p><strong>Status: </strong><em>Archived</em></p>
+                                        </div>
+                                    {% endif %}
+                            {% else %}
+                                <div class="collapsible-header white-text light-blue darken-4">
+                                    <div class="col s2">
+                                        <i class="fas fa-caret-down"></i>
+                                    </div>
+                                    {% if session.category == "manager" %}
+                                        <div class="col s5">
+                                            <a href="{{ url_for('project_delete_conf', project_name=project.project_name) }}" class="btn-small red darken-1 bottom-spacing">Delete</a>
                                             <a href="{{ url_for('project_archive_conf', project_name=project.project_name) }}" class="btn-small blue darken-1 bottom-spacing">Archive</a>
-                                        {% endif %}
-                                    </div>
-                                    <div class="col s5">
-                                        <strong>Project: </strong>{{ project.project_name }}
-                                        <p><strong>Target Date: </strong>{{ project.project_target_date }}</p>
-                                        {% if project.project_archive == "off" %}
+                                        </div>
+                                        <div class="col s5">
+                                            <strong>Project: </strong>{{ project.project_name }}
+                                            <p><strong>Target Date: </strong>{{ project.project_target_date }}</p>
                                             <p><strong>Status: </strong><em>Active</em></p>
-                                        {% else %}
-                                        <p><strong>Status: </strong><em>Archived</em></p>
-                                        {% endif %}
-                                    </div>
-                                {% else %}
-                                    <div class="col s10">
-                                        <strong>Project: </strong>{{ project.project_name }}
-                                        <p><strong>Target Date: </strong>{{ project.project_target_date }}</p>
-                                        {% if project.project_archive == "off" %}
+                                        </div>
+                                    {% else %}
+                                        <div class="col s10">
+                                            <strong>Project: </strong>{{ project.project_name }}
+                                            <p><strong>Target Date: </strong>{{ project.project_target_date }}</p>
                                             <p><strong>Status: </strong><em>Active</em></p>
-                                        {% else %}
-                                        <p><strong>Status: </strong><em>Archived</em></p>
-                                        {% endif %}
-                                    </div>
-                                {% endif %}
-                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
                             <div class="collapsible-body">
                                 <strong>Description</strong>
                                 <p>{{ project.project_description }}</p>
