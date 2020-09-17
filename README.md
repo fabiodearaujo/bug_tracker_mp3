@@ -4,7 +4,7 @@
 
 This is a webapp aimed to work as a tool to help to manage Projects and Tickets within a Team. It was designed to be simple and easy to use.
 
-<p align="center"><img src="https://sbug-tracker.herokuapp.com/static/img/SimpleBugTrackermockup.png" height="700px"><br>
+<p align="center"><img src="https://sbug-tracker.herokuapp.com/static/img/SimpleBugTrackermockup.png"><br>
 <h8>Background vector created by rawpixel.com - <a href="https://www.freepik.com/vectors/background" target="_blank">www.freepik.com</a></h8>
 
  ## User Experience (UX)
@@ -63,7 +63,7 @@ This is a webapp aimed to work as a tool to help to manage Projects and Tickets 
     -   ### General
         - The Database was laid with tables to reflect the need of the app at initial structure. It was taken in consideration that tables should be simple and data must be easy to retrieve and if necessary to expand for future improvements.
         
-        <p align="center"><img src="https://sbug-tracker.herokuapp.com/static/img/DBdiagram.PNG" height="700px"></p><br>
+        <p align="center"><img src="https://sbug-tracker.herokuapp.com/static/img/DBdiagram.PNG"></p><br>
         <h8>DB diagram created with <a href="https://app.diagrams.net/" target="_blank">app.diagrams.net</a></h8>
 
     -   DB Diagram Schema - [Download](https://drive.google.com/file/d/1Pafmj-4oVsDjhE6eaEez1Rj5giXy_S-Q/view?usp=sharing)
@@ -139,4 +139,4 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate th
 
 -   When creating New Ticket, the error messages for Ticket Category and Project Selection are not being displayed correctly.
 
--   The search field on Manage User was designed on the same way all other containers from the Webapp, but for some reason it appears wider than other containers.
+-   The search field on Manage User was designed on the same way all other containers from the Webapp, but for some reason it appears wider than other containers. Not a major issue, but it will be reviewed in future versions.

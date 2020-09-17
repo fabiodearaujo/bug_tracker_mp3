@@ -236,7 +236,7 @@ def create_project():
             mongo.db.project.insert_one(project)
 
         flash("Project created successfuly")
-        return redirect(url_for("create_project"))
+        return redirect(url_for("dashboard", user_name=session["user"]))
 
     users = mongo.db.user.find().sort("user_name", 1)
     return render_template("create_project.html", users=users)
