@@ -69,7 +69,7 @@ This is a webapp aimed to work as a tool to help to manage Projects and Tickets 
         <p align="center"><img src="https://sbug-tracker.herokuapp.com/static/img/DBdiagram.PNG"></p><br>
         <h8>DB diagram created with <a href="https://app.diagrams.net/" target="_blank">app.diagrams.net</a></h8>
 
-    -   DB Diagram Schema - [Download](https://drive.google.com/file/d/1Pafmj-4oVsDjhE6eaEez1Rj5giXy_S-Q/view?usp=sharing)
+    -   DB Diagram Schema - [Download](https://drive.google.com/file/d/1D_Tf52xDYcXgjyKV3o4u3YeFmbN2rxjY/view?usp=sharing)
 
 
 ## Technologies Used
