@@ -36,6 +36,9 @@ This is a webapp aimed to work as a tool to help to manage Projects and Tickets 
     -   #### Colour Scheme
         -   The blue colour was chosen as the main tone as it is known to be a calming colour. The contrast ratio was taken in consideration to every person be able to read clearly.
 
+    -   #### Typography
+        -   The Roboto font is the default font from Materialize CSS that is used throughout the whole website with Sans Serif as the fallback font in case the font isn't being imported into the site correctly. Roboto is a clean font used frequently in Google ecosystem, so it is both attractive, appropriate and memorable.
+
        #### Wireframes
 
     -   Home Page Wireframe - [Download](https://drive.google.com/file/d/1Kv-Sk2_msZDNv4PUR4pR-ubz8vcapROn/view?usp=sharing)
@@ -134,9 +137,15 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate th
 
 -   User complained that he couldn't open a ticket with the system when opening the Webapp on a forked version of Chrome with Adlock. When testing with another mainstream browser like Firefox the Webapp worked correctly to him. I completed doing some tests with Adblock installed on Official Chrome browser and didn't find any problem.
 
+-   User complained that when creating a ticket, the Manager also should be already selected from the user selection, as the Manager needs to have access to the project he is managing. It was modified the logic so the Manager user is already selected when creating a project.
+
+-   More than one user complained that after creating a project, the most intuitive way was to return straight to the Dashboard instead of staying on the Create Project page. The Redirection to Dashboard was made to reflect the user wishes.
+
+-   The Flash messages colour were not taking the attention of the user. It was redesigned and the color changed to an Orange to grab the user's attention.
+
 
 ### Known Bugs
 
--   When creating New Ticket, the error messages for Ticket Category and Project Selection are not being displayed correctly.
+-   When creating New Ticket, the validation error messages for Ticket Category and Project Selection are not being displayed correctly.
 
 -   The search field on Manage User was designed on the same way all other containers from the Webapp, but for some reason it appears wider than other containers. Not a major issue, but it will be reviewed in future versions.

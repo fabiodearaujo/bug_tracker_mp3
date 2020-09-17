@@ -253,7 +253,8 @@ def create_ticket():
             "ticket_status": "open",
             "category_name": request.form.get("category_name"),
             "project_name": request.form.get("project_name"),
-            "created_by": session["user"]
+            "created_by": session["user"],
+            "assign_to": session["user"]
         }
         mongo.db.ticket.insert_one(ticket)
         flash("New ticket created Successfuly")
@@ -337,7 +338,8 @@ def archive_project(project_name):
             "ticket_status": "closed",
             "category_name": ticket["category_name"],
             "project_name": ticket["project_name"],
-            "created_by": session["user"]
+            "created_by": session["user"],
+            "assigned_to": ticket["assigned_to"]
         }
         mongo.db.ticket.replace_one({"_id": ObjectId(ticket_id)}, ticket_edit)
 
@@ -372,7 +374,8 @@ def close_ticket(ticket_id):
         "ticket_status": "closed",
         "category_name": ticket["category_name"],
         "project_name": ticket["project_name"],
-        "created_by": ticket["created_by"]
+        "created_by": ticket["created_by"],
+        "assigned_to": ticket["assigned_to"]
     }
     mongo.db.ticket.replace_one({"_id": ObjectId(ticket_id)}, ticket_update)
     flash("Your Ticket was closed sussesfuly")
@@ -389,7 +392,8 @@ def reopen_ticket(ticket_id):
         "ticket_status": "open",
         "category_name": ticket["category_name"],
         "project_name": ticket["project_name"],
-        "created_by": ticket["created_by"]
+        "created_by": ticket["created_by"],
+        "assigned_to": ticket["assigned_to"]
     }
     mongo.db.ticket.replace_one({"_id": ObjectId(ticket_id)}, ticket_update)
     flash("Your Ticket was reopened sussesfuly")
@@ -408,7 +412,8 @@ def edit_ticket(ticket_id):
             "ticket_status": "open",
             "category_name": request.form.get("category_name"),
             "project_name": request.form.get("project_name"),
-            "created_by": session["user"]
+            "created_by": session["user"],
+            "assigned_to": request.form.get("assigned_to")
         }
         mongo.db.ticket.replace_one({"_id": ObjectId(ticket_id)}, ticket_edit)
 
@@ -422,9 +427,14 @@ def edit_ticket(ticket_id):
     # Get project to link to the ticket
     projects = list(mongo.db.project.find(
         { "user_name": session["user"]}).sort("project_name",1))
+    proj_users = list(mongo.db.project.find(
+        {"project_name": ticket["project_name"]}).sort("user_name")
+    )
+
     return render_template(
         "edit_ticket.html", ticket_id=ticketid, 
-        categories=categories, projects=projects, ticket=ticket)
+        categories=categories, projects=projects, ticket=ticket, 
+        proj_users=proj_users)
 
 
 #App route to Logout

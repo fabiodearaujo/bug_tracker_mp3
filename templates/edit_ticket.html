@@ -66,6 +66,20 @@
                         <label for="project_name">Project</label>
                     </div>
                 </div>
+                <!-- ticket assigned  -->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="fas fa-clipboard-check prefix light-blue-text text-darken-4"></i>
+                        <select id="assigned_to" name="assigned_to" class="validate" required>
+                            <option value="{{ ticket.assigned_to }}" selected>{{ ticket.assigned_to }}</option>
+                            {% for user in proj_users %}
+                                <option value="{{ user.user_name }}">{{ user.user_name }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="assigned_to">Assigned to</label>
+                        <span class="helper-text left-align" data-error="Choose the user to be assigned" data-success="Great">Choose the user to be assigned</span>
+                    </div>
+                </div>
                 <!-- Cancel or Update buttons  -->
                 <div class="row">
                     <a class="col s12 m3 offset-m2 btn-large red darken-4" href="{{ url_for('home') }}">
