@@ -77,30 +77,44 @@
                 <ul class="collapsible">
                     {% for ticket in tickets %}
                         <li>
-                            <div class="collapsible-header white-text light-blue darken-4">
-                                <div class="col s2">
-                                    <i class="fas fa-caret-down"></i>
+                            {% if ticket.ticket_status == "closed" %}    
+                                <div class="collapsible-header white-text grey darken-3">
+                                    <div class="col s2">
+                                        <i class="fas fa-caret-down"></i>
+                                    </div>
+                                    <div class="col s5">
+                                            <a href="{{ url_for('reopen_ticket', ticket_id=ticket._id) }}" class="btn-small orange darken-2 bottom-spacing">Reopen</a>
+                                    </div>
+                            {% else %}                               
+                                {% if ticket.assigned_to == session.user %}
+                                    <div class="collapsible-header white-text light-green darken-4">
+                                        <div class="col s2">
+                                            <i class="fas fa-caret-down"></i>
+                                        </div>
+                                {% else %}
+                                    <div class="collapsible-header white-text light-blue darken-4">
+                                        <div class="col s2">
+                                            <i class="fas fa-caret-down"></i>
+                                        </div>
+                                {% endif %}
+                                        <div class="col s5">
+                                                <a href="{{ url_for('close_ticket', ticket_id=ticket._id) }}" class="btn-small red darken-2 bottom-spacing">Close</a>
+                                                <a href="{{ url_for('edit_ticket', ticket_id=ticket._id) }}" class="btn-small blue darken-1 bottom-spacing">Edit</a>
+                                        </div>
+                            {% endif %}
+                                        <div class="col s5">
+                                            <strong>Project: </strong>{{ ticket.project_name }}
+                                            <p><strong>Category: </strong>{{ ticket.category_name }}</p>
+                                            <p><strong>Title : </strong>{{ ticket.ticket_title }}</p>
+                                            <p><strong>Assigned to: </strong><em>{{ ticket.assigned_to }}</em></p>
+                                        </div>
+                                    </div>
+                                <div class="collapsible-body">
+                                    <strong>Description</strong>
+                                    <p>{{ ticket.ticket_description }}</p>
+                                    <p><strong>Status : </strong>{{ ticket.ticket_status }}</p>
+                                    <p><em>by: {{ ticket.created_by }}</em></p>
                                 </div>
-                                <div class="col s5">
-                                    {% if ticket.ticket_status == "open" %}
-                                        <a href="{{ url_for('close_ticket', ticket_id=ticket._id) }}" class="btn-small red darken-2 bottom-spacing">Close</a>
-                                        <a href="{{ url_for('edit_ticket', ticket_id=ticket._id) }}" class="btn-small blue darken-1 bottom-spacing">Edit</a>
-                                    {% else %}
-                                        <a href="{{ url_for('reopen_ticket', ticket_id=ticket._id) }}" class="btn-small orange darken-2 bottom-spacing">Reopen</a>
-                                    {% endif %}
-                                </div>
-                                <div class="col s5">
-                                    <strong>Project: </strong>{{ ticket.project_name }}
-                                    <p><strong>Category: </strong>{{ ticket.category_name }}</p>
-                                    <p><strong>Title : </strong>{{ ticket.ticket_title }}</p>
-                                    <p><strong>Status: </strong>{{ ticket.ticket_status }}</p>
-                                </div>
-                            </div>
-                            <div class="collapsible-body">
-                                <strong>Description</strong>
-                                <p>{{ ticket.ticket_description }}</p>
-                                <p><em>by: {{ ticket.created_by }}</em></p>
-                            </div>
                         </li>
                     {% endfor %}
                 </ul>
