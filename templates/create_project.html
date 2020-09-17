@@ -43,13 +43,18 @@
                         <span class="helper-text left-align" data-error="Data Format 25, Sep 2020" data-success="Great">Pick the end date of the Project</span>
                     </div>
                 </div>
+                <!-- project users selection -->
                 <div class="row">
                     <div class="input-field col s12">
                         <i class="fas fa-user-check prefix light-blue-text text-darken-4"></i>
                         <select multiple required id="user_name" name="user_name" class="validate">
                             <option value="" disabled>Select Users for the Project</option>
                             {% for user in users %}
-                                <option value="{{ user.user_name }}">{{ user.user_name }}</option>
+                                {% if user.user_name == session.user %}
+                                    <option value="{{ user.user_name }}" selected>{{ user.user_name }}</option>
+                                {% else %}
+                                    <option value="{{ user.user_name }}">{{ user.user_name }}</option>
+                                {% endif %}
                             {% endfor %}
                         </select>
                         <label for="user_name">Users</label>
