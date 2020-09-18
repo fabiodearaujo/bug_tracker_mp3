@@ -155,6 +155,8 @@ def admin_login():
     if check_password_hash(
             existing_user["user_pass"], admpass):
                     session["user"] = existing_user["user_name"]
+                    session["user_city"] = existing_user["user_city"]
+                    session["user_country"] = existing_user["user_country"]
                     session["category"] = existing_user["user_category"]
                     flash("Welcome, {}!".format(existing_user["user_name"]))
                     return redirect(url_for(
@@ -513,6 +515,8 @@ def logout():
     flash("You have been logged out")
     session.pop("user")
     session.pop("category")
+    session.pop("user_city")
+    session.pop("user_country")
     return redirect(url_for("home"))
 
 
