@@ -34,6 +34,47 @@
                         <span class="helper-text" data-error="Minimum 8 characters, case sensitive" data-success="Great">Minimum of 8 characters, letters, numbers and symbols</span>
                     </div>
                 </div>
+                 <!-- user city field -->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
+                        <input id="user_city" name="user_city" type="text" minlenght="2" 
+                            maxlenght="30" pattern="^[a-zA-Z ]{2,30}$" class="validate" required>
+                        <label for="user_city">Location (City)</label>
+                        <span class="helper-text" data-error="Please inform the name of the city you are now" data-success="Great">City you are located now</span>
+                    </div>
+                </div>
+                <!-- user country selection -->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="fas fa-clipboard-check prefix light-blue-text text-darken-4"></i>
+                        <select id="user_country" name="user_country" value="" class="validate" required>
+                            <option value="AR">Argentina</option>
+                            <option value="AU">Australia</option>
+                            <option value="BE">Belgium</option>
+                            <option value="BR">Brazil</option>
+                            <option value="CA">Canada</option>
+                            <option value="CL">Chile</option>
+                            <option value="CZ">Czechia</option>
+                            <option value="FR">France</option>
+                            <option value="DE">Germany</option>
+                            <option value="IN">India</option>
+                            <option value="IE" selected>Ireland</option>
+                            <option value="IT">Italy</option>
+                            <option value="JP">Japan</option>
+                            <option value="NL">Netherlands</option>
+                            <option value="PT">Portugal</option>
+                            <option value="ZA">South Africa</option>
+                            <option value="ES">Spain</option>
+                            <option value="SE">Sweden</option>
+                            <option value="AE">UAE</option>
+                            <option value="UK">UK</option>
+                            <option value="US">USA</option>
+                        </select>
+                        <label for="user_country">Country Location</label>
+                        <span class="helper-text" data-error="Please select the country you are located" data-success="Great">Country you are located now</span>
+                    </div>
+                </div>
                 <!-- register button  -->
                 <div class="row">
                     <button type="submit" class="col s12 m4 offset-m4 btn-large light-blue darken-4">

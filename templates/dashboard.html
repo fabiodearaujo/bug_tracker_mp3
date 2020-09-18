@@ -11,6 +11,26 @@
 {% block content %}
     <h3 class="center-align">Dashboard</h3>
 
+    <div class="row card-panel blue lighten-3 top-spacing">
+        <div class="col s12 m2 offset-m2" style="text-align: center">
+            <img id="w_icon" src= {{ w_dictionary.icon }} alt="Weather Icon" height="50"><br>{{ w_dictionary.condition }}<br>{{ w_dictionary.description }}
+            
+        </div>
+        <div class="col s12 m2 center-align">
+            <h6>{{ w_dictionary.city }}, {{ w_dictionary.country }}</h6>
+            <p>{{ w_dictionary.temperature }}&deg; C<br>Umidity: {{ w_dictionary.humidity }}%</p>
+            
+            
+        </div>
+        <div class="col s12 m2 center-align">
+            <h5>Total Projects</h5>
+            <h6>{{ projects|count }}</h6>
+        </div>
+        <div class="col s12 m2 center-align">
+            <h5>Total Tickets</h5>
+            <h6>{{ tickets|count }}</h6>
+        </div>
+    </div>
     <!-- Projects assigned to the user -->
     <div class="row top-spacing">
         <div class="col s12">

@@ -36,9 +36,16 @@ class JSONEncoder(json.JSONEncoder):
 @app.route("/home", methods=["GET", "POST"])
 def home():
     #Setting up the API URL to request the JSON file
-    api_url = "http://api.openweathermap.org/data/2.5/weather?&APPID={}&q={}&units=metric"    
-    #Request Data from API including api_key and city (in the future to inplement city search)
-    w_request = requests.get(api_url.format(api_key, "Dublin,IE"))
+    api_url = "http://api.openweathermap.org/data/2.5/weather?&APPID={}&q={},{}&units=metric"    
+    
+    if "user_city" in session:
+        #Request Data from API including api_key and city (in the future to inplement city search)
+        w_request = requests.get(api_url.format(api_key, session["user_city"], session["user_country"]))
+    else:
+        #Request Data from API including api_key and city (in the future to inplement city search)
+        w_request = requests.get(api_url.format(api_key, "Dublin", "IE"))
+
+    #Convert data to Jason Dictionary
     weather = w_request.json()
     w_icon = "http://openweathermap.org/img/wn/{}@2x.png".format(
         weather["weather"][0]["icon"])
@@ -46,14 +53,29 @@ def home():
     w_desc = weather["weather"][0]["description"]
     w_temp = int(weather["main"]["temp"])
     w_hum = int(weather["main"]["humidity"])
-    w_dictionary = {
-        "city": "Dublin,IE",
+    w_city = weather["name"]
+    if "user_city" in session:
+        w_ctry = session["user_country"].upper()
+        w_dictionary = {
+            "city": w_city,
+            "country": w_ctry,
+            "condition": w_cond,
+            "description": w_desc,
+            "temperature": w_temp,
+            "humidity": w_hum,
+            "icon": w_icon
+        }
+    else:
+         w_dictionary = {
+        "city": "Dublin",
+        "country": "IE",
         "condition": w_cond,
         "description": w_desc,
         "temperature": w_temp,
         "humidity": w_hum,
         "icon": w_icon
-    }
+        }
+
     return render_template("home.html", w_dictionary=w_dictionary)
 
 
@@ -73,12 +95,23 @@ def register():
         register = {
             "user_name": request.form.get("user_name").lower(),
             "user_pass": generate_password_hash(request.form.get("user_pass")),
-            "user_category": "regular"
+            "user_category": "regular",
+            "user_city": request.form.get("user_city").lower(),
+            "user_country": request.form.get("user_country")
         }
-        mongo.db.user.insert_one(register)
-
-        flash("Registration Successful, please login!")
-        return redirect(url_for("login"))
+        #Setting up the API URL to request the JSON file
+        api_url = "http://api.openweathermap.org/data/2.5/weather?&APPID={}&q={},{}&units=metric"
+        #Request Data from API including api_key and city (in the future to inplement city search)
+        w_request = requests.get(api_url.format(api_key, register["user_city"],register["user_country"]))
+        weather = w_request.json()
+        # check if city and country informed are valid
+        if weather["cod"] == 200:
+            mongo.db.user.insert_one(register)
+            flash("Registration Successful, please login!")
+            return redirect(url_for("login"))
+        else:
+            flash("Combination City/Country not found, please try again")
+        
     return render_template("register.html")
 
 
@@ -95,6 +128,8 @@ def login():
             if check_password_hash(
                 existing_user["user_pass"], request.form.get("user_pass")):
                     session["user"] = existing_user["user_name"]
+                    session["user_city"] = existing_user["user_city"]
+                    session["user_country"] = existing_user["user_country"]
                     session["category"] = existing_user["user_category"]
                     flash("Welcome, {}!".format(existing_user["user_name"]))
                     return redirect(url_for(
@@ -151,9 +186,33 @@ def dashboard(user_name):
             if proj_receipt:
                 ticket = list(mongo.db.ticket.find({"project_name": proj_receipt}))
                 tickets.extend(ticket)
-    
+
+    #Setting up the API URL to request the JSON file
+    api_url = "http://api.openweathermap.org/data/2.5/weather?&APPID={}&q={},{}&units=metric"    
+    #Request Data from API including api_key and city (in the future to inplement city search)
+    w_request = requests.get(api_url.format(api_key, session["user_city"], session["user_country"]))
+    #Convert data to Jason Dictionary
+    weather = w_request.json()
+    w_icon = "http://openweathermap.org/img/wn/{}@2x.png".format(
+        weather["weather"][0]["icon"])
+    w_cond = weather["weather"][0]["main"]
+    w_desc = weather["weather"][0]["description"]
+    w_temp = int(weather["main"]["temp"])
+    w_hum = int(weather["main"]["humidity"])
+    w_city = weather["name"]
+    w_ctry = session["user_country"].upper()
+    w_dictionary = {
+        "city": w_city,
+        "country": w_ctry,
+        "condition": w_cond,
+        "description": w_desc,
+        "temperature": w_temp,
+        "humidity": w_hum,
+        "icon": w_icon
+    }
     return render_template("dashboard.html", 
-        user_name=user_name, projects=projects, tickets=tickets)
+        user_name=user_name, projects=projects, 
+        tickets=tickets, w_dictionary=w_dictionary)
 
 
 #App route for search user function - based on Tim's video - The code Institute
@@ -182,12 +241,22 @@ def edit_user(user_id):
         modify = {
             "user_name": user["user_name"],
             "user_pass": user["user_pass"],
-            "user_category": request.form.get("user_category")
+            "user_category": request.form.get("user_category"),
+            "user_city": request.form.get("user_city"),
+            "user_country": request.form.get("user_country")
         }
-        mongo.db.user.replace_one({"_id": ObjectId(user_id)}, modify)
-
-        flash("User information updated Successfully")
-        return redirect(url_for("home"))
+        #Setting up the API URL to request the JSON file
+        api_url = "http://api.openweathermap.org/data/2.5/weather?&APPID={}&q={},{}&units=metric"
+        #Request Data from API including api_key and city (in the future to inplement city search)
+        w_request = requests.get(api_url.format(api_key, modify["user_city"], modify["user_country"]))
+        weather = w_request.json()
+        # check if city and country informed are valid
+        if weather["cod"] == 200:
+            mongo.db.user.replace_one({"_id": ObjectId(user_id)}, modify)
+            flash("User information updated Successfully")
+            return redirect(url_for("home"))
+        else:
+            flash("Combination City/Country not found, please try again")   
 
     return render_template("edit_user.html", user=user)
 
@@ -443,6 +512,7 @@ def logout():
     # remove user from session cookies and return to home
     flash("You have been logged out")
     session.pop("user")
+    session.pop("category")
     return redirect(url_for("home"))
 
 
