@@ -325,7 +325,7 @@ def create_ticket():
             "category_name": request.form.get("category_name"),
             "project_name": request.form.get("project_name"),
             "created_by": session["user"],
-            "assign_to": session["user"]
+            "assigned_to": session["user"]
         }
         mongo.db.ticket.insert_one(ticket)
         flash("New ticket created Successfuly")

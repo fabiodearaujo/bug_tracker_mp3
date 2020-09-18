@@ -82,7 +82,7 @@
                 </div>
                 <!-- Cancel or Update buttons  -->
                 <div class="row">
-                    <a class="col s12 m3 offset-m2 btn-large red darken-4" href="{{ url_for('home') }}">
+                    <a class="col s12 m3 offset-m2 btn-large red darken-4" href="{{ url_for('dashboard', user_name=session['user']) }}">
                         <i class="fas fa-window-close right-pad"></i>Cancel
                     </a>
                     <button type="submit" class="col s12 m3 offset-m2 btn-large light-blue darken-4">
