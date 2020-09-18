@@ -24,22 +24,24 @@
                         <span class="helper-text" data-error="Sorry, try again" data-success="Great">Username cannot be changed</span>
                     </div>
                 </div>
-                <!-- user category -->
-                <div class="input-field col s12">
-                    <select id="user_category" name="user_category" required>
-                        <option value="" disabled selected>Choose the category</option>
-                        <!-- verify the user category and selects the appropriated one -->
-                        {% if user.user_category == "regular" %}
-                            <option value="regular" selected>Regular</option>
-                            <option value="manager">Manager</option>
-                        {% else %}
-                            <option value="regular">Regular</option>
-                            <option value="manager" selected>Manager</option>
-                        {% endif %}
-                    </select>
-                    <label>User Category</label>
-                    <span class="helper-text" data-error="Sorry, try again" data-success="Great">Choose the user category</span>
-                </div>
+                {% if session.category == "manager" %}
+                    <!-- user category -->
+                    <div class="input-field col s12">
+                        <select id="user_category" name="user_category" required>
+                            <option value="" disabled selected>Choose the category</option>
+                            <!-- verify the user category and selects the appropriated one -->
+                            {% if user.user_category == "regular" %}
+                                <option value="regular" selected>Regular</option>
+                                <option value="manager">Manager</option>
+                            {% else %}
+                                <option value="regular">Regular</option>
+                                <option value="manager" selected>Manager</option>
+                            {% endif %}
+                        </select>
+                        <label>User Category</label>
+                        <span class="helper-text" data-error="Sorry, try again" data-success="Great">Choose the user category</span>
+                    </div>
+                {% endif %}
                  <!-- user city field -->
                  <div class="row">
                     <div class="input-field col s12">

@@ -148,4 +148,6 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate th
 
 -   When creating New Ticket, the validation error messages for Ticket Category and Project Selection are not being displayed correctly.
 
+-   Only on iPhones, the select on the form doesn't display properly and it is hard to pick an option.
+
 -   The search field on Manage User was designed on the same way all other containers from the Webapp, but for some reason it appears wider than other containers. Not a major issue, but it will be reviewed in future versions.

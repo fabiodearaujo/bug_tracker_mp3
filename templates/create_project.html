@@ -61,12 +61,14 @@
                         <span class="helper-text left-align" data-error="Select at least 1 user" data-success="Great">Select users to access this project</span>
                     </div>
                 </div>
-                <!-- register button  -->
+                <!-- Cancel or Create buttons  -->
                 <div class="row">
-                    <button type="submit" class="col s12 m4 offset-m4 btn-large light-blue darken-4">
-                        <i class="fas fa-clipboard-check right-pad"></i>Create Project
-                    </button>
-                </div>
+                    <a class="col s12 m3 offset-m2 btn-large red darken-4" href="{{ url_for('dashboard', user_name=session['user']) }}">
+                        <i class="fas fa-window-close right-pad"></i>Cancel
+                    </a>
+                <button type="submit" class="col s12 m3 offset-m2 btn-large light-blue darken-4">
+                    <i class="fas fa-check-square right-pad"></i>Create
+                </button>
             </div>
         </form>
     </div>
