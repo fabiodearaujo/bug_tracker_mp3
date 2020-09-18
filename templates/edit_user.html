@@ -54,7 +54,8 @@
                 <div class="row">
                     <div class="input-field col s12">
                         <i class="fas fa-clipboard-check prefix light-blue-text text-darken-4"></i>
-                        <select id="user_country" name="user_country" value="{{ user.user_country }}" class="validate" selected required>
+                        <select id="user_country" name="user_country" class="validate" required>
+                            <option value="{{ user.user_country }}" selected>Country code: {{ user.user_country }}</option>
                             <option value="AR">Argentina</option>
                             <option value="AU">Australia</option>
                             <option value="BE">Belgium</option>
@@ -69,6 +70,7 @@
                             <option value="IT">Italy</option>
                             <option value="JP">Japan</option>
                             <option value="NL">Netherlands</option>
+                            <option value="PL">Poland</option>
                             <option value="PT">Portugal</option>
                             <option value="ZA">South Africa</option>
                             <option value="ES">Spain</option>
@@ -78,7 +80,7 @@
                             <option value="US">USA</option>
                         </select>
                         <label for="user_country">Country Location</label>
-                        <span class="helper-text" data-error="Please select the country you are located" data-success="Great">Country you are located now</span>
+                        <span class="helper-text" data-error="Please select the country you are located" data-success="Great">Country you are located now - Just change if necessary</span>
                     </div>
                 <!-- button to save the changes  -->
                 {% if session.user == "admintest" %}
