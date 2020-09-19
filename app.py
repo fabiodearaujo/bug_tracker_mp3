@@ -240,13 +240,23 @@ def edit_user(user_id):
     if request.method == "POST":
         # modify user name and category with the information from the form
         # but leave password untouched.
-        modify = {
-            "user_name": user["user_name"],
-            "user_pass": user["user_pass"],
-            "user_category": request.form.get("user_category"),
-            "user_city": request.form.get("user_city"),
-            "user_country": request.form.get("user_country")
-        }
+        if session["category"] == "manager":    
+            modify = {
+                "user_name": user["user_name"],
+                "user_pass": user["user_pass"],
+                "user_category": request.form.get("user_category"),
+                "user_city": request.form.get("user_city"),
+                "user_country": request.form.get("user_country")
+            }
+        else:
+            modify = {
+                "user_name": user["user_name"],
+                "user_pass": user["user_pass"],
+                "user_category": user["user_category"],
+                "user_city": request.form.get("user_city"),
+                "user_country": request.form.get("user_country")
+            }
+
         #Setting up the API URL to request the JSON file
         api_url = "http://api.openweathermap.org/data/2.5/weather?&APPID={}&q={},{}&units=metric"
         #Request Data from API including api_key and city (in the future to inplement city search)
@@ -255,8 +265,9 @@ def edit_user(user_id):
         # check if city and country informed are valid
         if weather["cod"] == 200:
             mongo.db.user.replace_one({"_id": ObjectId(user_id)}, modify)
-            flash("User information updated Successfully")
-            return redirect(url_for("home"))
+            flash("User updated Successfully, changes will be reflected after next Log In")
+            return redirect(url_for(
+                        "dashboard", user_name=session["user"]))
         else:
             flash("Combination City/Country not found, please try again")   
 
@@ -283,7 +294,8 @@ def change_pass(user_id):
         if session["user"] == modify["user_name"]:
             return redirect(url_for("logout"))
         else:
-            return redirect(url_for("home"))
+            return redirect(url_for(
+                        "dashboard", user_name=session["user"]))
 
     return render_template("change_pass.html", user=user)
 
