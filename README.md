@@ -113,7 +113,7 @@ This is a webapp aimed to work as a tool to help to manage Projects and Tickets 
 The W3C Markup Validator and W3C CSS Validator Services were used to validate the page of the project to ensure there were no syntax errors.
 
 -   [W3C Markup Validator](https://validator.w3.org/)
-    -   The validator picked up 2 different errors and 1 warning. The errors and warning were corrected.
+    -   The validator picked up 2 different errors and 1 warning on the first run. The errors and warning were corrected.
     -   Test passed with no Warnings or Errors.
 
 -   [W3C CSS Validator](https://jigsaw.w3.org/css-validator/#validate_by_input)
@@ -121,6 +121,9 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate th
 
 -   [W3C Broken Link Checker](https://validator.w3.org/checklink?uri=https%3A%2F%2Fsbug-tracker.herokuapp.com%2F&hide_type=all&depth=&check=Check)
     -   The validator found 1 redirection link that is now corrected.
+
+-   [PEP8 Checker](http://pep8online.com/) - [Error results](https://drive.google.com/file/d/1bpk_cfYu6r4yHhpD8Dfy_MZ65r4BYKQB/view?usp=sharing)
+
 
 ### Further Testing
 
@@ -148,6 +151,93 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate th
 
 -   When creating New Ticket, the validation error messages for Ticket Category and Project Selection are not being displayed correctly.
 
--   Only on iPhones, the select on the form doesn't display properly and it is hard to pick an option.
+-   Only on iPhones, the selection element on the form doesn't display properly and it is hard to pick an option.
 
 -   The search field on Manage User was designed on the same way all other containers from the Webapp, but for some reason it appears wider than other containers. Not a major issue, but it will be reviewed in future versions.
+
+### Issues tracker
+
+- Issues encontered during development, testing and after deployed are being registered at [GitHub Projects](https://github.com/fabioaraujo76/bug_tracker_mp3/projects/1).
+
+## Deployment
+
+### Heroku
+
+The project was deployed to Heroku using the following steps...
+
+1.  Download and install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-command-line).
+2.  If you haven't already, log in to your Heroku account and follow the prompts to [create a new SSH public key](https://devcenter.heroku.com/articles/keys).
+    $ heroku login
+3.  Clone the [GitHub Repository](https://github.com/fabioaraujo76/bug_tracker_mp3)
+    Use Git to clone sbug-tracker's source code to your local machine.
+    $ heroku git:clone -a sbug-tracker
+    $ cd sbug-tracker
+4.  At the tab Settings, setup all Config Vars necessary for the App to run.
+5.  Deploy your changes
+    Make some changes to the code you just cloned and deploy them to Heroku using Git.
+    $ git add -A
+    $ git commit -m "make it better"
+    $ git push heroku master
+
+For more information on deploying the App with Git follow this [link](https://devcenter.heroku.com/articles/git#ssh-git-transport).
+
+## Collaboration
+
+### Forking the GitHub Repository
+
+By forking the GitHub Repository we make a copy of the original repository on our GitHub account to view and/or make changes without affecting the original repository by using the following steps...
+
+1. Log in to GitHub and locate the [GitHub Repository](https://github.com/)
+2. At the top of the Repository (not top of page) just above the "Settings" Button on the menu, locate the "Fork" Button.
+3. You should now have a copy of the original repository in your GitHub account.
+
+### Making a Local Clone
+
+1. Log in to GitHub and locate the [GitHub Repository](https://github.com/)
+2. Under the repository name, click "Clone or download".
+3. To clone the repository using HTTPS, under "Clone with HTTPS", copy the link.
+4. Open Git Bash
+5. Change the current working directory to the location where you want the cloned directory to be made.
+6. Type `git clone`, and then paste the URL you copied in Step 3.
+
+```
+$ git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
+```
+
+7. Press Enter. Your local clone will be created.
+
+```
+$ git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
+> Cloning into `CI-Clone`...
+> remote: Counting objects: 10, done.
+> remote: Compressing objects: 100% (8/8), done.
+> remove: Total 10 (delta 1), reused 10 (delta 1)
+> Unpacking objects: 100% (10/10), done.
+```
+
+Click [Here](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository) for more informatino about Cloning repositories.
+
+Click [Here](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests) for more informatino about Collaboration.
+
+## Credits
+
+### Code
+
+-   [Code Institute](https://codeinstitute.net/) - The course gave me the hability to improve my knowledge and was very important source of knowledge on the technologies user on this project.
+
+-   [Materialize](https://materializecss.com/getting-started.html) - The documentation part was important to understand and use the forms and components of the Framework.
+
+-   [OpenWeather](https://openweathermap.org/current) - It was important to understand how to fetch data from the API and also return the icon to match with the current weather.
+
+-   [Stack Overflow](https://stackoverflow.com/questions/16586180/typeerror-objectid-is-not-json-serializable) - This article helped me to resolve the error when retrieveing data from Mongo DB.
+
+-   Other Sources - Not less important, but also helpful, W3 Schools, Google Search and Python/Flask/Mongo DB documentation.
+
+
+### Acknowledgements
+
+-   My Mentor for continuous helpful feedback.
+
+-   Tim Nelson for the updated lessons on the task manager mini project, it was very important for my understanding on Flask.
+
+-   All friends and family that helped me to test and gave me valuable feedback.

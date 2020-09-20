@@ -13,7 +13,7 @@ if os.path.exists("env.py"):
 
 app = Flask(__name__)
 
-#Enviroment configuration variables
+# Enviroment configuration variables
 app.config["MONGO_DBNAME"] = os.environ.get("MONGO_DBNAME")
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 app.secret_key = os.environ.get("SECRET_KEY")
@@ -21,6 +21,7 @@ admpass = os.environ.get("ADMPASS")
 api_key = os.environ.get("APPID")
 
 mongo = PyMongo(app)
+
 
 # Solution from stack overflow to resolve error
 # TypeError: Object of type ObjectId is not JSON serializable
@@ -37,20 +38,20 @@ class JSONEncoder(json.JSONEncoder):
 @app.route("/")
 @app.route("/home", methods=["GET", "POST"])
 def home():
-    #Setting up the API URL to request the JSON file
+    # Setting up the API URL to request the JSON file
     api_url = ("http://api.openweathermap.org/data/2.5/"
-                "weather?&APPID={}&q={},{}&units=metric")
-    
+               "weather?&APPID={}&q={},{}&units=metric")
+
     if "user_city" in session:
-        #Request Data from API including api_key and city 
+        # Request Data from API including api_key and city
         w_request = requests.get(api_url.format(
             api_key, session["user_city"], session["user_country"]))
     else:
-        #Request Data from API including api_key and city
+        # Request Data from API including api_key and city
         w_request = requests.get(api_url.format(
             api_key, "Dublin", "IE"))
 
-    #Convert data to Jason Dictionary
+    # Convert data to Jason Dictionary
     weather = w_request.json()
     w_icon = "http://openweathermap.org/img/wn/{}@2x.png".format(
         weather["weather"][0]["icon"])
@@ -71,14 +72,14 @@ def home():
             "icon": w_icon
         }
     else:
-         w_dictionary = {
-        "city": "Dublin",
-        "country": "IE",
-        "condition": w_cond,
-        "description": w_desc,
-        "temperature": w_temp,
-        "humidity": w_hum,
-        "icon": w_icon
+        w_dictionary = {
+            "city": "Dublin",
+            "country": "IE",
+            "condition": w_cond,
+            "description": w_desc,
+            "temperature": w_temp,
+            "humidity": w_hum,
+            "icon": w_icon
         }
 
     return render_template("home.html", w_dictionary=w_dictionary)
@@ -107,12 +108,12 @@ def register():
             "user_city": request.form.get("user_city").lower(),
             "user_country": request.form.get("user_country")
         }
-        #Setting up the API URL to request the JSON file
+        # Setting up the API URL to request the JSON file
         api_url = ("http://api.openweathermap.org/data/2.5/"
-                    "weather?&APPID={}&q={},{}&units=metric")
-        #Request Data from API including api_key and city 
+                   "weather?&APPID={}&q={},{}&units=metric")
+        # Request Data from API including api_key and city
         w_request = requests.get(api_url.format(
-            api_key, register["user_city"],register["user_country"]))
+            api_key, register["user_city"], register["user_country"]))
         weather = w_request.json()
         # check if city and country informed are valid
         if weather["cod"] == 200:
@@ -121,12 +122,12 @@ def register():
             return redirect(url_for("login"))
         else:
             flash("Combination City/Country not found,"
-                    " please try again")
-        
+                  " please try again")
+
     return render_template("register.html")
 
 
-#App route to login page - based on Tim's videos - The Code Institute
+# App route to login page - based on Tim's videos - The Code Institute
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -135,19 +136,17 @@ def login():
             {"user_name": request.form.get("user_name").lower()})
 
         if existing_user:
-            #ensure hashed password matches user input
+            # ensure hashed password matches user input
             if check_password_hash(
                 existing_user["user_pass"], request.form.get(
                     "user_pass")):
-                    session["user"] = existing_user["user_name"]
-                    session["user_city"] = existing_user["user_city"]
-                    session["user_country"] = existing_user[
-                                                    "user_country"]
-                    session["category"] = existing_user[
-                                                    "user_category"]
-                    flash("Welcome, {}!".format(existing_user[
+                session["user"] = existing_user["user_name"]
+                session["user_city"] = existing_user["user_city"]
+                session["user_country"] = existing_user["user_country"]
+                session["category"] = existing_user["user_category"]
+                flash("Welcome, {}!".format(existing_user[
                                                     "user_name"]))
-                    return redirect(url_for(
+                return redirect(url_for(
                         "dashboard", user_name=session["user"]))
             else:
                 # invalid password match
@@ -169,38 +168,37 @@ def admin_login():
             {"user_name": "admintest"})
     if check_password_hash(
             existing_user["user_pass"], admpass):
-                    session["user"] = existing_user["user_name"]
-                    session["user_city"] = existing_user["user_city"]
-                    session["user_country"] = existing_user[
-                                                    "user_country"]
-                    session["category"] = existing_user[
-                                                    "user_category"]
-                    flash("Welcome, {}!".format(existing_user[
-                                                    "user_name"]))
-                    return redirect(url_for(
-                        "dashboard", user_name=session["user"]))
+        session["user"] = existing_user["user_name"]
+        session["user_city"] = existing_user["user_city"]
+        session["user_country"] = existing_user["user_country"]
+        session["category"] = existing_user["user_category"]
+        flash("Welcome, {}!".format(existing_user["user_name"]))
+        return redirect(url_for(
+            "dashboard", user_name=session["user"]))
     else:
-                flash("Please contact the developer")
-                return redirect(url_for("login"))
+        flash("Please contact the developer")
+        return redirect(url_for("login"))
+
+    return render_template("login.html")
 
 
-#App route for the User Dashboard where it will be 
+# App route for the User Dashboard where it will be
 # displayed the projects and tickets
 @app.route("/dashboard/<user_name>", methods=["GET", "POST"])
 def dashboard(user_name):
-    #return the project list of the user
+    # return the project list of the user
     projects = list(mongo.db.project.find(
         {"user_name": session["user"]}).sort("project_name", 1))
-    #lists to receive projects and tickets
+    # lists to receive projects and tickets
     proj_count = []
     tickets = []
-    #Check if there are projects to the user, if no projecs assigned
-    #user is not allowed to access the dashboard
+    # Check if there are projects to the user, if no projecs assigned
+    # user is not allowed to access the dashboard
     if not projects:
         flash("No Projects assigned yet, please contact your manager")
         return redirect(url_for("home"))
     else:
-        #iterate through the projects to get the tickets for each one
+        # iterate through the projects to get the tickets for each one
         for proj in projects:
             proj_count.append(proj["project_name"])
             proj_receipt = proj["project_name"]
@@ -209,13 +207,13 @@ def dashboard(user_name):
                                 {"project_name": proj_receipt}))
                 tickets.extend(ticket)
 
-    #Setting up the API URL to request the JSON file
+    # Setting up the API URL to request the JSON file
     api_url = ("http://api.openweathermap.org/data/2.5/"
-                "weather?&APPID={}&q={},{}&units=metric")
-    #Request Data from API including api_key and city
+               "weather?&APPID={}&q={},{}&units=metric")
+    # Request Data from API including api_key and city
     w_request = requests.get(api_url.format(
         api_key, session["user_city"], session["user_country"]))
-    #Convert data to Jason Dictionary
+    # Convert data to Jason Dictionary
     weather = w_request.json()
     w_icon = "http://openweathermap.org/img/wn/{}@2x.png".format(
         weather["weather"][0]["icon"])
@@ -234,12 +232,12 @@ def dashboard(user_name):
         "humidity": w_hum,
         "icon": w_icon
     }
-    return render_template("dashboard.html", 
-        user_name=user_name, projects=projects, 
-        tickets=tickets, w_dictionary=w_dictionary)
+    return render_template("dashboard.html",
+                           user_name=user_name, projects=projects,
+                           tickets=tickets, w_dictionary=w_dictionary)
 
 
-#App route for search user function - based on Tim's video
+# App route for search user function - based on Tim's video
 # The code Institute
 @app.route("/search", methods=["GET", "POST"])
 def search_user():
@@ -248,7 +246,7 @@ def search_user():
     return render_template("manage_user.html", user_reg=user_reg)
 
 
-#App route to Manage Users
+# App route to Manage Users
 @app.route("/manage_user/<user_name>", methods=["GET", "POST"])
 def manage_user(user_name):
     user_reg = mongo.db.user.find_one(
@@ -256,14 +254,14 @@ def manage_user(user_name):
     return render_template("manage_user.html", user_reg=user_reg)
 
 
-#App route for editing the user
+# App route for editing the user
 @app.route("/edit_user/<user_id>", methods=["GET", "POST"])
 def edit_user(user_id):
     user = mongo.db.user.find_one({"_id": ObjectId(user_id)})
     if request.method == "POST":
-        # modify user name and category with the information from 
+        # modify user name and category with the information from
         # the form but leave password untouched.
-        if session["category"] == "manager":    
+        if session["category"] == "manager":
             modify = {
                 "user_name": user["user_name"],
                 "user_pass": user["user_pass"],
@@ -280,10 +278,10 @@ def edit_user(user_id):
                 "user_country": request.form.get("user_country")
             }
 
-        #Setting up the API URL to request the JSON file
+        # Setting up the API URL to request the JSON file
         api_url = ("http://api.openweathermap.org/data/2.5/"
-                    "weather?&APPID={}&q={},{}&units=metric")
-        #Request Data from API including api_key and city
+                   "weather?&APPID={}&q={},{}&units=metric")
+        # Request Data from API including api_key and city
         w_request = requests.get(api_url.format(
             api_key, modify["user_city"], modify["user_country"]))
         weather = w_request.json()
@@ -292,17 +290,17 @@ def edit_user(user_id):
             mongo.db.user.replace_one(
                 {"_id": ObjectId(user_id)}, modify)
             flash("User updated Successfully, changes"
-                    " will be reflected after next Log In")
+                  " will be reflected after next Log In")
             return redirect(url_for(
                         "dashboard", user_name=session["user"]))
         else:
             flash("Combination City/Country not found,"
-                    " please try again")
+                  " please try again")
 
     return render_template("edit_user.html", user=user)
 
 
-#App route to Change Password
+# App route to Change Password
 @app.route("/change_pass/<user_id>", methods=["GET", "POST"])
 def change_pass(user_id):
     user = mongo.db.user.find_one({"_id": ObjectId(user_id)})
@@ -318,7 +316,7 @@ def change_pass(user_id):
 
         flash("User password changed Successfully")
         # if the user is changing its own password the system
-        # will force logout, but if a manager changing for another 
+        # will force logout, but if a manager changing for another
         # user, the system will keep it loged in.
         if session["user"] == modify["user_name"]:
             return redirect(url_for("logout"))
@@ -358,10 +356,10 @@ def create_project():
 
 
 # App route to Create Tickets
-@app.route("/create_ticket", methods=["GET","POST"])
+@app.route("/create_ticket", methods=["GET", "POST"])
 def create_ticket():
     if request.method == "POST":
-        #create 1 ticket with status set automaticaly to open
+        # create 1 ticket with status set automaticaly to open
         ticket = {
             "ticket_title": request.form.get("ticket_title"),
             "ticket_description": request.form.get(
@@ -381,24 +379,25 @@ def create_ticket():
     # Get project to link to the ticket
     projects = mongo.db.project.find().sort("project_name", 1)
     proj_test = list(mongo.db.project.find(
-                        { "user_name": session["user"]}))
+                        {"user_name": session["user"]}))
     if proj_test:
-        return render_template("create_ticket.html", 
-        categories=categories, projects=projects)
+        return render_template("create_ticket.html",
+                               categories=categories,
+                               projects=projects)
     else:
-        # if user has no projects assigned, 
+        # if user has no projects assigned,
         # he is not able to create tickets
         flash("No Projects assigned to you yet,"
-                " please contact your manager")
+              " please contact your manager")
         return redirect("home")
 
-    return render_template("create_ticket.html", 
-        categories=categories, projects=projects)
+    return render_template("create_ticket.html",
+                           categories=categories, projects=projects)
 
 
 # App Route for confirmation step before deleting a project
 @app.route(
-    "/project_delete_conf/<project_name>", methods=["GET","POST"])
+    "/project_delete_conf/<project_name>", methods=["GET", "POST"])
 def project_delete_conf(project_name):
     project_name = mongo.db.project.find_one(
                     {"project_name": project_name})["project_name"]
@@ -409,27 +408,27 @@ def project_delete_conf(project_name):
 # App Route for the Delete Project + Tickets function.
 @app.route("/delete_project/<project_name>")
 def delete_project(project_name):
-    #Getting tickets related to the project
+    # Getting tickets related to the project
     ticketlist = list(mongo.db.ticket.find(
                         {"project_name": project_name}))
-    #For some reason the list was not in the correct 
+    # For some reason the list was not in the correct
     # format and I had to encode it
     ticket_convert = JSONEncoder().encode(ticketlist)
-    #Again another transformation to be able to work with the data
+    # Again another transformation to be able to work with the data
     tickets = json.loads(ticket_convert)
-    #loop through the tickets and delete all related to the project
+    # loop through the tickets and delete all related to the project
     for ticket in tickets:
         ticket_id = ticket['_id']
         mongo.db.ticket.remove({"_id": ObjectId(ticket_id)})
 
-    #Getting the Projects (It has 1 entry for each user assigned to it)
+    # Getting the Projects (It has 1 entry for each user assigned to it)
     projectlist = list(mongo.db.project.find(
                         {"project_name": project_name}))
-    #Again I was not able to work with the data and had to encode
+    # Again I was not able to work with the data and had to encode
     project_convert = JSONEncoder().encode(projectlist)
-    #then transform it on a json dictionary to be able to work.
+    # then transform it on a json dictionary to be able to work.
     projects = json.loads(project_convert)
-    #loop through the Project itens deleting all occurences
+    # loop through the Project itens deleting all occurences
     for project in projects:
         project_id = project['_id']
         mongo.db.project.remove({"_id": ObjectId(project_id)})
@@ -440,7 +439,7 @@ def delete_project(project_name):
 
 # App route to Project Archiving confirmation
 @app.route(
-    "/project_archive_conf/<project_name>", methods=["GET","POST"])
+    "/project_archive_conf/<project_name>", methods=["GET", "POST"])
 def project_archive_conf(project_name):
     project_name = mongo.db.project.find_one(
                     {"project_name": project_name})["project_name"]
@@ -451,15 +450,15 @@ def project_archive_conf(project_name):
 # App Route to Archiving project function
 @app.route("/archive_project/<project_name>")
 def archive_project(project_name):
-    #Getting tickets related to the project
+    # Getting tickets related to the project
     ticketlist = list(mongo.db.ticket.find(
                         {"project_name": project_name}))
-    #For some reason the list was not in the correct 
+    # For some reason the list was not in the correct
     # format and I had to encode it
     ticket_convert = JSONEncoder().encode(ticketlist)
-    #Again another transformation to be able to work with the data
+    # Again another transformation to be able to work with the data
     tickets = json.loads(ticket_convert)
-    #loop through the tickets and close all 
+    # loop through the tickets and close all
     # tickets related to the project
     for ticket in tickets:
         ticket_id = ticket['_id']
@@ -475,14 +474,14 @@ def archive_project(project_name):
         mongo.db.ticket.replace_one(
                     {"_id": ObjectId(ticket_id)}, ticket_edit)
 
-    #Get the list of projects
+    # Get the list of projects
     projectlist = list(mongo.db.project.find(
                             {"project_name": project_name}))
-    #encode it
+    # encode it
     project_convert = JSONEncoder().encode(projectlist)
-    #load json dictionary
+    # load json dictionary
     projects = json.loads(project_convert)
-    # loop through the project to each user 
+    # loop through the project to each user
     # and change Archiving status to "ON"
     for project in projects:
         project_update = {
@@ -518,7 +517,7 @@ def close_ticket(ticket_id):
     return redirect(url_for("dashboard", user_name=session["user"]))
 
 
-#App route to reopen the ticket
+# App route to reopen the ticket
 @app.route("/reopen_ticket/<ticket_id>")
 def reopen_ticket(ticket_id):
     ticket = mongo.db.ticket.find_one({"_id": ObjectId(ticket_id)})
@@ -537,11 +536,11 @@ def reopen_ticket(ticket_id):
     return redirect(url_for("dashboard", user_name=session["user"]))
 
 
-#App Route to edit the ticket
-@app.route("/edit_ticket/<ticket_id>", methods=["GET","POST"])
+# App Route to edit the ticket
+@app.route("/edit_ticket/<ticket_id>", methods=["GET", "POST"])
 def edit_ticket(ticket_id):
     if request.method == "POST":
-        #ticket can be updated anytime to include more comments
+        # ticket can be updated anytime to include more comments
         # or completely change it
         ticket_edit = {
             "ticket_title": request.form.get("ticket_title"),
@@ -567,18 +566,18 @@ def edit_ticket(ticket_id):
                                                 "category_name", 1))
     # Get project to link to the ticket
     projects = list(mongo.db.project.find(
-        { "user_name": session["user"]}).sort("project_name",1))
+        {"user_name": session["user"]}).sort("project_name", 1))
     proj_users = list(mongo.db.project.find(
         {"project_name": ticket["project_name"]}).sort("user_name")
     )
 
     return render_template(
-        "edit_ticket.html", ticket_id=ticketid, 
-        categories=categories, projects=projects, ticket=ticket, 
+        "edit_ticket.html", ticket_id=ticketid,
+        categories=categories, projects=projects, ticket=ticket,
         proj_users=proj_users)
 
 
-#App route to Logout
+# App route to Logout
 @app.route("/logout")
 def logout():
     # remove user from session cookies and return to home
