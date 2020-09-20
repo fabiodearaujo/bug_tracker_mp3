@@ -123,6 +123,7 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate th
     -   The validator found 1 redirection link that is now corrected.
 
 -   [PEP8 Checker](http://pep8online.com/) - [Error results](https://drive.google.com/file/d/1bpk_cfYu6r4yHhpD8Dfy_MZ65r4BYKQB/view?usp=sharing)
+    -   All warnings and lines out of PEP8 Style were corrected.
 
 
 ### Further Testing

@@ -577,6 +577,11 @@ def edit_ticket(ticket_id):
         proj_users=proj_users)
 
 
+@app.route("/documentation")
+def documentation():
+    return render_template("documentation.html")
+
+
 # App route to Logout
 @app.route("/logout")
 def logout():
@@ -592,4 +597,4 @@ def logout():
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
             port=int(os.environ.get("PORT")),
-            debug=False)
+            debug=True)

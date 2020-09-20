@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    <link rel="shortcut icon" href="static/img/bugtrackerlogodark.svg" type="image/x-icon">
+{% endblock %}
+
+{% block logo %}
+    <a href="{{ url_for('home') }}" class="brand-logo" style="padding-left: 20px; padding-top: 5px;"><img src="static/img/bugtrackerlogolight.svg" height="50" width="50" alt="Bug Tracker Logo"></a>
+{% endblock %}
+
+{% block content %}
+    <div class="row card-panel grey lighten-4 center-align top-spacing">
+        <h4>Documentation - Help</h4>
+        <ul>
+            <li><a href="#Introduction">Introduction</a></li>
+            <li><a href="#ruser">Regular User</a></li>
+            <li><a href="#amuser">Admin/Manager User</a></li>
+        </ul>
+    </div>
+    <div class="row card-panel grey lighten-4 center-align top-spacing">
+       <div class="container">
+            <div id="Introduction">
+                <h5>Introduction</h5>
+                <p>This is a webapp aimed to work as a tool to help the management of Projects and Tickets within a Team. It was designed to be simple and easy to use.</p>
+            </div>
+            <div id="ruser">
+                <h5>Regular User</h5>
+
+            </div>
+            <div id="amuser">
+                <h5>Admin/Manager User</h5>
+            </div>
+
+
+       </div>
+    </div>
+    
+{% endblock %}
