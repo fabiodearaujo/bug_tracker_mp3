@@ -7,6 +7,7 @@ This is a webapp aimed to work as a tool to help to manage Projects and Tickets 
 <p align="center"><img src="https://sbug-tracker.herokuapp.com/static/img/SimpleBugTrackermockup.png"><br>
 <h8>Background vector created by rawpixel.com - <a href="https://www.freepik.com/vectors/background" target="_blank">www.freepik.com</a></h8>
 
+
  ## User Experience (UX)
 
 -   ### User stories
@@ -44,7 +45,6 @@ This is a webapp aimed to work as a tool to help to manage Projects and Tickets 
     -   Home Page Wireframe - [Download](https://drive.google.com/file/d/1Kv-Sk2_msZDNv4PUR4pR-ubz8vcapROn/view?usp=sharing)
     -   Logo Icon Design - [Download](https://drive.google.com/file/d/1cUnwxe_87_Z0uGhLj3LODkmWDF6zAkcx/view?usp=sharing)
 
-   
 
 ## Features
 
@@ -110,6 +110,7 @@ This is a webapp aimed to work as a tool to help to manage Projects and Tickets 
 1. [Affinity Designer:](https://affinity.serif.com/en-gb/designer/)
     - Affinity Designer was used to create the wireframes, Logo and Design Mockup for this Readme.
 
+
 ## Testing
 
 The W3C Markup Validator and W3C CSS Validator Services were used to validate the page of the project to ensure there were no syntax errors.
@@ -126,7 +127,6 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate th
 
 -   [PEP8 Checker](http://pep8online.com/) - [Error results](https://drive.google.com/file/d/1bpk_cfYu6r4yHhpD8Dfy_MZ65r4BYKQB/view?usp=sharing)
     -   All warnings and lines out of PEP8 Style were corrected.
-
 
 ### Further Testing
 
@@ -149,7 +149,6 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate th
 
 -   The Flash messages colour were not taking the attention of the user. It was redesigned and the color changed to an Orange to grab the user's attention.
 
-
 ### Known Bugs
 
 -   When creating New Ticket, the validation error messages for Ticket Category and Project Selection are not being displayed correctly.
@@ -158,11 +157,9 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate th
 
 -   The search field on Manage User was designed on the same way all other containers from the Webapp, but for some reason it appears wider than other containers. Not a major issue, but it will be reviewed in future versions.
 
-
 ### Issues tracker
 
 - Issues encontered during development, testing and after deployed are being registered at [GitHub Projects](https://github.com/fabioaraujo76/bug_tracker_mp3/projects/1).
-
 
 ### Future Improvements
 
@@ -196,6 +193,7 @@ The project was deployed to Heroku using the following steps...
     $ git push heroku master
 
 For more information on deploying the App with Git follow this [link](https://devcenter.heroku.com/articles/git#ssh-git-transport).
+
 
 ## Collaboration
 
@@ -235,6 +233,7 @@ Click [Here](https://help.github.com/en/github/creating-cloning-and-archiving-re
 
 Click [Here](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests) for more informatino about Collaboration.
 
+
 ## Credits
 
 ### Code
@@ -248,7 +247,6 @@ Click [Here](https://help.github.com/en/github/collaborating-with-issues-and-pul
 -   [Stack Overflow](https://stackoverflow.com/questions/16586180/typeerror-objectid-is-not-json-serializable) - This article helped me to resolve the error when retrieveing data from Mongo DB.
 
 -   Other Sources - Not less important, but also helpful, W3 Schools, Google Search and Python/Flask/Mongo DB documentation.
-
 
 ### Acknowledgements
 
