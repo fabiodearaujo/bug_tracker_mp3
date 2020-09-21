@@ -238,7 +238,7 @@ Click [Here](https://help.github.com/en/github/collaborating-with-issues-and-pul
 
 ### Code
 
--   [Code Institute](https://codeinstitute.net/) - The course gave me the hability to improve my knowledge and was very important source of knowledge on the technologies user on this project.
+-   [Code Institute](https://codeinstitute.net/) - The course gave me the hability to improve my knowledge and was very important source on the technologies used on this project.
 
 -   [Materialize](https://materializecss.com/getting-started.html) - The documentation part was important to understand and use the forms and components of the Framework.
 
