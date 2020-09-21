@@ -19,8 +19,9 @@
                     <div class="input-field col s12">
                         <i class="fas fa-ticket-alt prefix light-blue-text text-darken-4"></i>
                         <input id="ticket_title" name="ticket_title" type="text" minlenght="5" 
-                            value="{{ ticket.ticket_title }}" maxlenght="50" class="validate" required>
+                            value="{{ ticket.ticket_title }}" maxlenght="20" class="validate" required>
                         <label for="ticket_title">Ticket Title</label>
+                        <span class="helper-text left-align" data-error="Must have a minimum of 5 and a maximum of 20 characters" data-success="Great">Write the ticket title</span>
                     </div>
                 </div>
                 <!-- ticket description  -->
@@ -28,10 +29,11 @@
                     <div class="input-field col s12">
                         <i class="fas fa-align-left prefix light-blue-text text-darken-4"></i>
                         <textarea id="ticket_description" name="ticket_description" minlength="5" 
-                            maxlength="300" class="materialize-textarea validate" required>
+                            maxlength="250" class="materialize-textarea validate" required>
                             {{- ticket.ticket_description -}}
                         </textarea>
                         <label for="ticket_description">Ticket Description</label>
+                        <span class="helper-text left-align" data-error="Must have a minimum of 5 and a maximum of 250 characters" data-success="Great">Write the ticket description</span>
                     </div>
                 </div>
                 <!-- category selection  -->
@@ -45,6 +47,7 @@
                             {% endfor %}
                         </select>
                         <label for="category_name">Ticket Category</label>
+                        <span class="helper-text left-align" data-error="Select the ticket category" data-success="Great">Select the ticket category</span>
                     </div>
                 </div>
                 <!-- project seletcion  -->
@@ -64,6 +67,7 @@
                             {% endfor %}
                         </select>
                         <label for="project_name">Project</label>
+                        <span class="helper-text left-align" data-error="Select at least one project" data-success="Great">Select the project</span>
                     </div>
                 </div>
                 <!-- ticket assigned  -->

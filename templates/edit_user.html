@@ -21,7 +21,7 @@
                         <input id="user_name" name="user_name" type="text" minlenght="5" 
                             value="{{ user.user_name }}" maxlenght="15" pattern="^[a-zA-Z0-9]{5,15}$" class="validate" disabled required>
                         <label for="user_name">Username</label>
-                        <span class="helper-text" data-error="Sorry, try again" data-success="Great">Username cannot be changed</span>
+                        <span class="helper-text" data-error="Username cannot be changed" data-success="Great">Username cannot be changed</span>
                     </div>
                 </div>
                 {% if session.category == "manager" %}
