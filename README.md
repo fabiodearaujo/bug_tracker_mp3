@@ -60,6 +60,8 @@ This is a webapp aimed to work as a tool to help to manage Projects and Tickets 
 
 -   Weather information on Home page
 
+-   Help Documentation can be acessed from the Navbar
+
 
 - ## Database Design
 
@@ -156,9 +158,22 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate th
 
 -   The search field on Manage User was designed on the same way all other containers from the Webapp, but for some reason it appears wider than other containers. Not a major issue, but it will be reviewed in future versions.
 
+
 ### Issues tracker
 
 - Issues encontered during development, testing and after deployed are being registered at [GitHub Projects](https://github.com/fabioaraujo76/bug_tracker_mp3/projects/1).
+
+
+### Future Improvements
+
+-   Add the possibility of Regular user send Message to the Manager requesting Project access.
+
+-   Add option to Regular user also send requests of app improvements to the Managers.
+
+-   Add the possibility of a Manager create different Teams to have more organization and flexibility.
+
+-   Add create date and timing to complete the ticket.
+
 
 ## Deployment
 
