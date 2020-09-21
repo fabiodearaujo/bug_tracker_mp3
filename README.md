@@ -4,7 +4,7 @@
 
 This is a webapp aimed to work as a tool to help to manage Projects and Tickets within a Team. It was designed to be simple and easy to use.
 
-<p align="center"><img src="https://sbug-tracker.herokuapp.com/static/img/SimpleBugTrackermockup.png"><br>
+<p align="center"><img src="https://sbug-tracker.herokuapp.com/static/img/simplebugtrackermockup.png"><br>
 <h8>Background vector created by rawpixel.com - <a href="https://www.freepik.com/vectors/background" target="_blank">www.freepik.com</a></h8>
 
 
@@ -68,7 +68,7 @@ This is a webapp aimed to work as a tool to help to manage Projects and Tickets 
     -   ### General
         - The Database was laid with tables to reflect the need of the app at initial structure. It was taken in consideration that tables should be simple and data must be easy to retrieve and if necessary to expand for future improvements.
         
-        <p align="center"><img src="https://sbug-tracker.herokuapp.com/static/img/DBdiagram.PNG"></p><br>
+        <p align="center"><img src="https://sbug-tracker.herokuapp.com/static/img/dbdiagram.PNG"></p><br>
         <h8>DB diagram created with <a href="https://app.diagrams.net/" target="_blank">app.diagrams.net</a></h8>
 
     -   DB Diagram Schema - [Download](https://drive.google.com/file/d/1D_Tf52xDYcXgjyKV3o4u3YeFmbN2rxjY/view?usp=sharing)
@@ -124,6 +124,9 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate th
 
 -   [W3C Broken Link Checker](https://validator.w3.org/checklink?uri=https%3A%2F%2Fsbug-tracker.herokuapp.com%2F&hide_type=all&depth=&check=Check)
     -   The validator found 1 redirection link that is now corrected.
+
+-   [JSHint](https://jshint.com/)
+    -   There was missing one semicolon that was corrected.
 
 -   [PEP8 Checker](http://pep8online.com/) - [Error results](https://drive.google.com/file/d/1bpk_cfYu6r4yHhpD8Dfy_MZ65r4BYKQB/view?usp=sharing)
     -   All warnings and lines out of PEP8 Style were corrected.
