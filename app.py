@@ -310,7 +310,9 @@ def change_pass(user_id):
             "user_name": user["user_name"],
             "user_pass": generate_password_hash(
                             request.form.get("user_pass")),
-            "user_category": user["user_category"]
+            "user_category": user["user_category"],
+            "user_city": user["user_city"],
+            "user_country": user["user_country"]
         }
         mongo.db.user.replace_one({"_id": ObjectId(user_id)}, modify)
 
