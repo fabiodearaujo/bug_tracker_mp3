@@ -257,4 +257,4 @@ Click [Here](https://help.github.com/en/github/collaborating-with-issues-and-pul
 
 -   Tim Nelson for the updated lessons on the task manager mini project, it was very important for my understanding on Flask.
 
--   All friends and family that helped me to test and gave me valuable feedback.
+-   All friends and family that helped me to test and gave me valuable feedback. 
