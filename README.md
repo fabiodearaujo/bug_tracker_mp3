@@ -251,7 +251,7 @@ Click [Here](https://help.github.com/en/github/collaborating-with-issues-and-pul
 
 -   Other Sources - Not less important, but also helpful, W3 Schools, Google Search and Python/Flask/Mongo DB documentation.
 
-### Acknowledgements
+### Acknowledgements 
 
 -   My Mentor for continuous helpful feedback.
 
