@@ -14,14 +14,13 @@ if os.path.exists("env.py"):
 app = Flask(__name__)
 
 # Enviroment configuration variables
-app.config["MONGO_DBNAME"] = os.environ.get("MONGO_DBNAME")
+# app.config["MONGO_DBNAME"] = os.environ.get("MONGO_DBNAME")
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 app.secret_key = os.environ.get("SECRET_KEY")
 admpass = os.environ.get("ADMPASS")
 api_key = os.environ.get("APPID")
 
 mongo = PyMongo(app)
-
 
 # Solution from stack overflow to resolve error
 # TypeError: Object of type ObjectId is not JSON serializable
@@ -108,6 +107,18 @@ def register():
             "user_city": request.form.get("user_city").lower(),
             "user_country": request.form.get("user_country")
         }
+
+        project = {
+            "project_name": request.form.get("user_name")+"_baseproj",
+            "project_description": request.form.get(
+                                        "Base Project"),
+            "project_target_date": request.form.get(
+                                        "30 December, 2030"),
+            "user_name": request.form.get("user_name"),
+            "project_archive": "off"
+        }
+            
+        
         # Setting up the API URL to request the JSON file
         api_url = ("http://api.openweathermap.org/data/2.5/"
                    "weather?&APPID={}&q={},{}&units=metric")
@@ -118,6 +129,7 @@ def register():
         # check if city and country informed are valid
         if weather["cod"] == 200:
             mongo.db.user.insert_one(register)
+            mongo.db.project.insert_one(project)
             flash("Registration Successful, please login!")
             return redirect(url_for("login"))
         else:
@@ -599,4 +611,4 @@ def logout():
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
             port=int(os.environ.get("PORT")),
-            debug=False)
+            debug=True)
