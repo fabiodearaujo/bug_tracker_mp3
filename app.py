@@ -111,7 +111,7 @@ def register():
             "project_name": request.form.get("user_name")+"_baseproj",
             "project_description": "Base Project",
             "project_target_date": "30 December, 2030",
-            "user_name": request.form.get("user_name"),
+            "user_name": request.form.get("user_name").lower(),
             "project_archive": "off"
         }
             
