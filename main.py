@@ -606,10 +606,7 @@ def create_app():
         session.pop("user_country")
         return redirect(url_for("home"))
 
+    if __name__ == "__main__":
+        app.run()
+
     return app
-
-
-# if __name__ == "__main__":
-#     app.run(host=os.environ.get("IP"),
-#             port=int(os.environ.get("PORT")),
-#             debug=False)
