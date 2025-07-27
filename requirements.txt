@@ -16,7 +16,7 @@ MarkupSafe==1.1.1
 mccabe==0.6.1
 pylint==2.5.3
 pymongo==3.10.1
-requests==2.24.0
+requests==2.32.4
 six==1.15.0
 toml==0.10.1
 urllib3==1.25.10
