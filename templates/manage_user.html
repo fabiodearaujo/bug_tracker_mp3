@@ -35,27 +35,43 @@
     <div class="row top-spacing">
         <div class="col s12">
             <div class="card-panel">
-                <!-- username field -->
-                <div class="row">
-                    <div class="col s12 offset-m2">
-                        <h5><strong>Username: </strong> {{ user_reg.user_name }}</h5>
+                {% if user_reg %}
+                    <!-- username field -->
+                    <div class="row">
+                        <div class="col s12 offset-m2">
+                            <h5><strong>Username: </strong> {{ user_reg.user_name }}</h5>
+                        </div>
                     </div>
-                </div>
-                <!-- user category -->
-                <div class="row">
-                    <div class="col s12 offset-m2">
-                        <h5><strong>Category: </strong> {{ user_reg.user_category }}</h5>
+                    <!-- user category -->
+                    <div class="row">
+                        <div class="col s12 offset-m2">
+                            <h5><strong>Category: </strong> {{ user_reg.user_category }}</h5>
+                        </div>
                     </div>
-                </div>
-                <!-- Update button  -->
-                <div class="row">
-                    <a href="{{ url_for('edit_user', user_id=user_reg._id) }}" class="col s12 m3 offset-m2 btn-large light-blue darken-4 top-spacing">
-                        <i class="fas fa-user-edit right-pad"></i>Edit user...
-                    </a>
-                    <a href="{{ url_for('change_pass', user_id=user_reg._id) }}" class="col s12 m3 offset-m2 btn-large light-blue darken-4 top-spacing">
-                        <i class="fas fa-user-shield right-pad"></i>Change Password...
-                    </a>
-                </div>
+                    <!-- Update button  -->
+                    <div class="row">
+                        <a href="{{ url_for('edit_user', user_id=user_reg._id) }}" class="col s12 m3 offset-m2 btn-large light-blue darken-4 top-spacing">
+                            <i class="fas fa-user-edit right-pad"></i>Edit user...
+                        </a>
+                        {% if user_reg.user_name == "managertest" %}
+                            <button class="col s12 m3 offset-m2 btn-large grey darken-2 top-spacing" disabled data-tooltip="Admin password cannot be changed" data-position="bottom">
+                                <i class="fas fa-user-shield right-pad"></i>Change Password
+                            </button>
+                        {% else %}
+                            <a href="{{ url_for('change_pass', user_id=user_reg._id) }}" class="col s12 m3 offset-m2 btn-large light-blue darken-4 top-spacing">
+                                <i class="fas fa-user-shield right-pad"></i>Change Password...
+                            </a>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    {% if session.category == "manager" %}
+                        <div class="row">
+                            <div class="col s12 center-align">
+                                <h5>Search for a user above or click Reset to see your own information.</h5>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
             </div>
         </div>
     </div>
