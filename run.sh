@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-# Activate virtual environment
-. .venv/bin/activate
+# Source the profile script to set up the environment
+. ./.profile
 
 # Start gunicorn
 exec gunicorn app:app

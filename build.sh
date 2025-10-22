@@ -10,5 +10,7 @@ uv venv
 . .venv/bin/activate
 uv pip install -r requirements.txt
 
-# Make sure the virtual environment path is preserved for subsequent commands
-echo 'export PATH=".venv/bin:$PATH"' >> $BASH_ENV
+# Create a profile script that will be sourced to set up the environment
+echo '#!/usr/bin/env bash' > .profile
+echo '. .venv/bin/activate' >> .profile
+chmod +x .profile
