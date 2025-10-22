@@ -15,7 +15,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 export PATH="/opt/render/.local/bin:$PATH"
 
 # Create virtual environment and install dependencies
-uv venv --name "$VENV_PATH"
+uv venv "$VENV_PATH"
 . "$VENV_PATH/bin/activate"
 
 # Install dependencies
