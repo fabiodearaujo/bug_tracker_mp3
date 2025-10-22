@@ -9,11 +9,12 @@ PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Debug information
 echo "Current PATH: $PATH"
 echo "Python location: $(which python)"
+echo "Virtual env: $VIRTUAL_ENV"
 which gunicorn || echo "gunicorn not found in PATH"
 
 # Start gunicorn with full path if needed
 if command -v gunicorn >/dev/null 2>&1; then
     exec gunicorn app:app
 else
-    exec "$PROJECT_DIR/.venv/bin/gunicorn" app:app
+    exec "$VIRTUAL_ENV/bin/gunicorn" app:app
 fi
