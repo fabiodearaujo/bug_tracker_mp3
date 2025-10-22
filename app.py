@@ -14,13 +14,32 @@ if os.path.exists("env.py"):
 
 app = Flask(__name__)
 
-# Enviroment configuration variables
-app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
+# Environment configuration variables
+mongo_uri = os.environ.get("MONGO_URI")
+if "mongodb+srv://" in mongo_uri and "?" in mongo_uri:
+    # Add SSL certificate verification skip parameter
+    mongo_uri += "&tlsAllowInvalidCertificates=true"
+elif "mongodb+srv://" in mongo_uri:
+    mongo_uri += "?tlsAllowInvalidCertificates=true"
+
+app.config["MONGO_URI"] = mongo_uri
 app.secret_key = os.environ.get("SECRET_KEY")
 admpass = os.environ.get("ADMPASS")
 api_key = os.environ.get("APPID")
 
-mongo = PyMongo(app)
+# Debug MongoDB connection
+try:
+    mongo = PyMongo(app)
+    # Test the connection
+    mongo.db.command('ping')
+    print("MongoDB connected successfully!")
+    
+    # Ensure text index exists for user search
+    mongo.db.user.create_index([("user_name", "text")], background=True)
+    print("User search index created successfully!")
+except Exception as e:
+    print("MongoDB connection error:", str(e))
+    raise
 
 # Solution from stack overflow to resolve error
 # TypeError: Object of type ObjectId is not JSON serializable
@@ -175,7 +194,7 @@ def login():
 @app.route("/admin_login")
 def admin_login():
     existing_user = mongo.db.user.find_one(
-            {"user_name": "admintest"})
+            {"user_name": os.environ.get("ADMUSR")})
     if check_password_hash(
             existing_user["user_pass"], admpass):
         session["user"] = existing_user["user_name"]
@@ -196,13 +215,13 @@ def admin_login():
 # displayed the projects and tickets
 @app.route("/dashboard/<user_name>", methods=["GET", "POST"])
 def dashboard(user_name):
-    # return the project list of the user
+    # return the project list where the user is included in the users array
     projects = list(mongo.db.project.find(
-        {"user_name": session["user"]}).sort("project_name", 1))
+        {"user_name": {"$in": [session["user"]]}}).sort("project_name", 1))
     # lists to receive projects and tickets
     proj_count = []
     tickets = []
-    # Check if there are projects to the user, if no projecs assigned
+    # Check if there are projects to the user, if no projects assigned
     # user is not allowed to access the dashboard
     if not projects:
         flash("No Projects assigned yet, please contact your manager")
@@ -252,8 +271,28 @@ def dashboard(user_name):
 @app.route("/search", methods=["GET", "POST"])
 def search_user():
     query = request.form.get("query")
-    user_reg = mongo.db.user.find_one({"$text": {"$search": query}})
-    return render_template("manage_user.html", user_reg=user_reg)
+    if not query:
+        flash("Please provide a username to search")
+        return redirect(url_for("manage_user", user_name=session["user"]))
+    
+    try:
+        # First try exact match
+        user_reg = mongo.db.user.find_one({"user_name": query.lower()})
+        
+        # If no exact match, try text search
+        if user_reg is None:
+            user_reg = mongo.db.user.find_one({"$text": {"$search": query}})
+        
+        if user_reg is None:
+            flash("User not found")
+            return redirect(url_for("manage_user", user_name=session["user"]))
+        
+        return render_template("manage_user.html", user_reg=user_reg)
+        
+    except Exception as e:
+        print("Search error:", str(e))
+        flash("An error occurred while searching. Please try again.")
+        return redirect(url_for("manage_user", user_name=session["user"]))
 
 
 # App route to Manage Users
@@ -345,21 +384,17 @@ def create_project():
     if request.method == "POST":
         # returns the list from selection and store in userlist
         userlist = request.form.getlist("user_name")
-        # loop throug the list and create 1 entry for each user
-        # projects will have Archive status Off by defaut
-        for user in userlist:
-            project = {
-                "project_name": request.form.get("project_name"),
-                "project_description": request.form.get(
-                                            "project_description"),
-                "project_target_date": request.form.get(
-                                            "project_target_date"),
-                "user_name": user,
-                "project_archive": "off"
-            }
-            mongo.db.project.insert_one(project)
+        # Create a single project with a list of users
+        project = {
+            "project_name": request.form.get("project_name"),
+            "project_description": request.form.get("project_description"),
+            "project_target_date": request.form.get("project_target_date"),
+            "user_name": userlist,  # Store all users in an array
+            "project_archive": "off"
+        }
+        mongo.db.project.insert_one(project)
 
-        flash("Project created successfuly")
+        flash("Project created successfully")
         return redirect(url_for(
             "dashboard", user_name=session["user"]))
 
@@ -383,22 +418,23 @@ def create_ticket():
             "assigned_to": session["user"]
         }
         mongo.db.ticket.insert_one(ticket)
-        flash("New ticket created Successfuly")
+        flash("New ticket created Successfully")
         return redirect(url_for("create_ticket"))
 
     # Get categories from DB to selection on the render template
     categories = mongo.db.category.find().sort("category_name", 1)
     # Get project to link to the ticket
-    projects = mongo.db.project.find().sort("project_name", 1)
+    projects = mongo.db.project.find(
+        {"user_name": {"$in": [session["user"]]}}).sort("project_name", 1)
     proj_test = list(mongo.db.project.find(
-                        {"user_name": session["user"]}))
+                        {"user_name": {"$in": [session["user"]]}}))
     if proj_test:
         return render_template("create_ticket.html",
                             categories=categories,
                             projects=projects)
     else:
         # if user has no projects assigned,
-        # he is not able to create tickets
+        # it is not able to create tickets
         flash("No Projects assigned to you yet,"
             " please contact your manager")
         return redirect("home")
@@ -420,30 +456,11 @@ def project_delete_conf(project_name):
 # App Route for the Delete Project + Tickets function.
 @app.route("/delete_project/<project_name>")
 def delete_project(project_name):
-    # Getting tickets related to the project
-    ticketlist = list(mongo.db.ticket.find(
-                        {"project_name": project_name}))
-    # For some reason the list was not in the correct
-    # format and I had to encode it
-    ticket_convert = JSONEncoder().encode(ticketlist)
-    # Again another transformation to be able to work with the data
-    tickets = json.loads(ticket_convert)
-    # loop through the tickets and delete all related to the project
-    for ticket in tickets:
-        ticket_id = ticket['_id']
-        mongo.db.ticket.remove({"_id": ObjectId(ticket_id)})
+    # Delete all tickets related to the project
+    mongo.db.ticket.delete_many({"project_name": project_name})
 
-    # Getting the Projects (It has 1 entry for each user assigned to it)
-    projectlist = list(mongo.db.project.find(
-                        {"project_name": project_name}))
-    # Again I was not able to work with the data and had to encode
-    project_convert = JSONEncoder().encode(projectlist)
-    # then transform it on a json dictionary to be able to work.
-    projects = json.loads(project_convert)
-    # loop through the Project itens deleting all occurences
-    for project in projects:
-        project_id = project['_id']
-        mongo.db.project.remove({"_id": ObjectId(project_id)})
+    # Delete the project itself
+    mongo.db.project.delete_one({"project_name": project_name})
 
     flash("The Project and its Tickets were deleted successfuly")
     return redirect(url_for("dashboard", user_name=session["user"]))
@@ -609,4 +626,4 @@ def logout():
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
             port=int(os.environ.get("PORT")),
-            debug=False)
+            debug=True)

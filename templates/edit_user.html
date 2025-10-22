@@ -27,19 +27,27 @@
                 {% if session.category == "manager" %}
                     <!-- user category -->
                     <div class="input-field col s12">
-                        <select id="user_category" name="user_category" required>
-                            <option value="" disabled selected>Choose the category</option>
-                            <!-- verify the user category and selects the appropriated one -->
-                            {% if user.user_category == "regular" %}
-                                <option value="regular" selected>Regular</option>
-                                <option value="manager">Manager</option>
-                            {% else %}
-                                <option value="regular">Regular</option>
+                        {% if user.user_name == "managertest" %}
+                            <select id="user_category" name="user_category" class="grey lighten-2" disabled>
                                 <option value="manager" selected>Manager</option>
-                            {% endif %}
-                        </select>
-                        <label>User Category</label>
-                        <span class="helper-text" data-error="Please select a category" data-success="Great">Choose the user category</span>
+                            </select>
+                            <label>User Category</label>
+                            <span class="helper-text red-text">Admin category cannot be changed</span>
+                        {% else %}
+                            <select id="user_category" name="user_category" required>
+                                <option value="" disabled selected>Choose the category</option>
+                                <!-- verify the user category and selects the appropriated one -->
+                                {% if user.user_category == "regular" %}
+                                    <option value="regular" selected>Regular</option>
+                                    <option value="manager">Manager</option>
+                                {% else %}
+                                    <option value="regular">Regular</option>
+                                    <option value="manager" selected>Manager</option>
+                                {% endif %}
+                            </select>
+                            <label>User Category</label>
+                            <span class="helper-text" data-error="Please select a category" data-success="Great">Choose the user category</span>
+                        {% endif %}
                     </div>
                 {% endif %}
                  <!-- user city field -->
@@ -85,7 +93,7 @@
                         <span class="helper-text" data-error="Please select the country you are located" data-success="Great">Country you are located now - Just change if necessary</span>
                     </div>
                 <!-- button to save the changes  -->
-                {% if session.user == "admintest" %}
+                {% if user.user_name == "managertest" %}
                     <div class="row">
                         <a href="{{ url_for('manage_user', user_name=session['user']) }}" class="col s12 m4 offset-m4 btn-large red darken-4 top-spacing">
                             <i class="fas fa-window-close right-pad"></i>Cancel 
