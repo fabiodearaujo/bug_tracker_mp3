@@ -1,6 +1,5 @@
 astroid==3.3.11
 blinker==1.9.0
--e file:///Users/fabiodearaujo/Dev/bug_tracker_mp3
 certifi==2025.7.14
 chardet==5.2.0
 charset-normalizer==3.4.2
