@@ -15,24 +15,39 @@ if os.path.exists("env.py"):
 app = Flask(__name__)
 
 # Environment configuration variables
-app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
+mongo_uri = os.environ.get("MONGO_URI")
+
+# Add SSL parameters to MongoDB URI for better compatibility
+if "mongodb+srv://" in mongo_uri:
+    if "?" in mongo_uri:
+        mongo_uri += "&tls=true&tlsAllowInvalidCertificates=true"
+    else:
+        mongo_uri += "?tls=true&tlsAllowInvalidCertificates=true"
+
+app.config["MONGO_URI"] = mongo_uri
 app.secret_key = os.environ.get("SECRET_KEY")
 admpass = os.environ.get("ADMPASS")
 api_key = os.environ.get("APPID")
 
-# Debug MongoDB connection
-try:
-    mongo = PyMongo(app, tls=True, tlsAllowInvalidCertificates=True)
-    # Test the connection
-    mongo.db.command('ping')
-    print("MongoDB connected successfully!")
-    
-    # Ensure text index exists for user search
-    mongo.db.user.create_index([("user_name", "text")], background=True)
-    print("User search index created successfully!")
-except Exception as e:
-    print("MongoDB connection error:", str(e))
-    raise
+# Initialize MongoDB connection (lazy connection - won't connect until first request)
+mongo = PyMongo(app)
+
+# Create text index on first request
+@app.before_request
+def initialize_db():
+    if not hasattr(app, 'db_initialized'):
+        try:
+            # Test the connection
+            mongo.db.command('ping')
+            print("MongoDB connected successfully!")
+            
+            # Ensure text index exists for user search
+            mongo.db.user.create_index([("user_name", "text")], background=True)
+            print("User search index created successfully!")
+            app.db_initialized = True
+        except Exception as e:
+            print("MongoDB connection error:", str(e))
+            # Don't raise - allow the app to start even if MongoDB is temporarily unavailable
 
 # Solution from stack overflow to resolve error
 # TypeError: Object of type ObjectId is not JSON serializable
