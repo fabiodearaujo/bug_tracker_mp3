@@ -15,21 +15,14 @@ if os.path.exists("env.py"):
 app = Flask(__name__)
 
 # Environment configuration variables
-mongo_uri = os.environ.get("MONGO_URI")
-if "mongodb+srv://" in mongo_uri and "?" in mongo_uri:
-    # Add SSL certificate verification skip parameter
-    mongo_uri += "&tlsAllowInvalidCertificates=true"
-elif "mongodb+srv://" in mongo_uri:
-    mongo_uri += "?tlsAllowInvalidCertificates=true"
-
-app.config["MONGO_URI"] = mongo_uri
+app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 app.secret_key = os.environ.get("SECRET_KEY")
 admpass = os.environ.get("ADMPASS")
 api_key = os.environ.get("APPID")
 
 # Debug MongoDB connection
 try:
-    mongo = PyMongo(app)
+    mongo = PyMongo(app, tls=True, tlsAllowInvalidCertificates=True)
     # Test the connection
     mongo.db.command('ping')
     print("MongoDB connected successfully!")
