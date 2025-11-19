@@ -205,22 +205,32 @@ def login():
 # App route to login as Admin for test purposes
 @app.route("/admin_login")
 def admin_login():
-    existing_user = mongo.db.user.find_one(
-            {"user_name": os.environ.get("ADMUSR")})
-    if check_password_hash(
-            existing_user["user_pass"], admpass):
-        session["user"] = existing_user["user_name"]
-        session["user_city"] = existing_user["user_city"]
-        session["user_country"] = existing_user["user_country"]
-        session["category"] = existing_user["user_category"]
-        flash("Welcome, {}!".format(existing_user["user_name"]))
-        return redirect(url_for(
-            "dashboard", user_name=session["user"]))
-    else:
-        flash("Please contact the developer")
+    try:
+        admin_username = os.environ.get("ADMUSR")
+        if not admin_username:
+            flash("Admin configuration error")
+            return redirect(url_for("login"))
+        
+        existing_user = mongo.db.user.find_one({"user_name": admin_username})
+        
+        if not existing_user:
+            flash("Admin user not found. Please contact the developer")
+            return redirect(url_for("login"))
+        
+        if check_password_hash(existing_user["user_pass"], admpass):
+            session["user"] = existing_user["user_name"]
+            session["user_city"] = existing_user["user_city"]
+            session["user_country"] = existing_user["user_country"]
+            session["category"] = existing_user["user_category"]
+            flash("Welcome, {}!".format(existing_user["user_name"]))
+            return redirect(url_for("dashboard", user_name=session["user"]))
+        else:
+            flash("Invalid credentials. Please contact the developer")
+            return redirect(url_for("login"))
+    except Exception as e:
+        print("Admin login error:", str(e))
+        flash("An error occurred during login. Please try again.")
         return redirect(url_for("login"))
-
-    return render_template("login.html")
 
 
 # App route for the User Dashboard where it will be
