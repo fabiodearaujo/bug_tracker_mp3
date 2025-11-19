@@ -1,6 +1,8 @@
 import os
 import requests
 import json
+import ssl
+import certifi
 from flask import (
     Flask, flash, render_template,
     redirect, request, session, url_for)
@@ -17,20 +19,34 @@ app = Flask(__name__)
 # Environment configuration variables
 mongo_uri = os.environ.get("MONGO_URI")
 
-# Add SSL parameters to MongoDB URI for better compatibility
+# Add comprehensive SSL parameters to MongoDB URI for Render compatibility
 if "mongodb+srv://" in mongo_uri:
+    # Remove any existing SSL/TLS parameters to avoid conflicts
     if "?" in mongo_uri:
-        mongo_uri += "&tls=true&tlsAllowInvalidCertificates=true"
+        base_uri = mongo_uri.split("?")[0]
+        params = mongo_uri.split("?")[1]
+        # Remove SSL-related params if they exist
+        params_list = [p for p in params.split("&") if not p.startswith(("tls", "ssl"))]
+        if params_list:
+            mongo_uri = base_uri + "?" + "&".join(params_list) + "&tls=true&tlsAllowInvalidCertificates=true"
+        else:
+            mongo_uri = base_uri + "?tls=true&tlsAllowInvalidCertificates=true"
     else:
         mongo_uri += "?tls=true&tlsAllowInvalidCertificates=true"
 
 app.config["MONGO_URI"] = mongo_uri
+app.config["MONGO_CONNECT"] = False  # Lazy connection
 app.secret_key = os.environ.get("SECRET_KEY")
 admpass = os.environ.get("ADMPASS")
 api_key = os.environ.get("APPID")
 
-# Initialize MongoDB connection
-mongo = PyMongo(app)
+# Initialize MongoDB connection with SSL context
+try:
+    mongo = PyMongo(app, tlsCAFile=certifi.where())
+except Exception as e:
+    print(f"PyMongo initialization error: {e}")
+    # Fallback without certifi
+    mongo = PyMongo(app)
 
 # Initialize database connection and indexes
 def init_db():
