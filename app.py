@@ -68,6 +68,26 @@ try:
     init_db()
 except:
     print("Initial DB connection failed, will retry on first request")
+# Initialize database connection and indexes
+def init_db():
+    try:
+        # Test the connection
+        mongo.db.command('ping')
+        print("MongoDB connected successfully!")
+        
+        # Ensure text index exists for user search
+        mongo.db.user.create_index([("user_name", "text")], background=True)
+        print("User search index created successfully!")
+        return True
+    except Exception as e:
+        print("MongoDB connection error:", str(e))
+        return False
+
+# Initialize on startup in a non-blocking way
+try:
+    init_db()
+except:
+    print("Initial DB connection failed, will retry on first request")
 
 # Solution from stack overflow to resolve error
 # TypeError: Object of type ObjectId is not JSON serializable
